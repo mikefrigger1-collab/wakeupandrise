@@ -39,13 +39,6 @@ export default function Home() {
     };
   }, []);
 
-  const handleEmailSubmit = (e) => {
-    e.preventDefault();
-    const email = e.target.email.value;
-    alert("Thanks for signing up! We'll notify you when Wake Up & Rise launches.");
-    e.target.reset();
-  };
-
   return (
     <>
       <Head>
@@ -59,7 +52,6 @@ export default function Home() {
         <meta property="twitter:title" content="Wake Up & Rise - Smart Alarm Clock App" />
         <meta property="twitter:description" content="Transform your mornings with gradual volume ramping, custom audio, and morning routines." />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
       </Head>
 
       {/* Navigation */}
@@ -286,20 +278,18 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="testimonials">
-            <div className="testimonial fade-in">
-              <p className="testimonial-text">"This app transformed my mornings completely! I actually look forward to waking up now."</p>
-              <p className="testimonial-author">- Sarah M.</p>
-            </div>
-            <div className="testimonial fade-in">
-              <p className="testimonial-text">"Finally, an alarm that doesn't ruin my day. The volume ramping is genius!"</p>
-              <p className="testimonial-author">- Mike D.</p>
-            </div>
-            <div className="testimonial fade-in">
-              <p className="testimonial-text">"The routine feature is a game-changer. I've built habits I never thought possible."</p>
-              <p className="testimonial-author">- Jessica L.</p>
-            </div>
-          </div>
+<div className="testimonial fade-in">
+  <p className="testimonial-text">&ldquo;This app transformed my mornings completely! I actually look forward to waking up now.&rdquo;</p>
+  <p className="testimonial-author">- Sarah M.</p>
+</div>
+<div className="testimonial fade-in">
+  <p className="testimonial-text">&ldquo;Finally, an alarm that doesn&rsquo;t ruin my day. The volume ramping is genius!&rdquo;</p>
+  <p className="testimonial-author">- Mike D.</p>
+</div>
+<div className="testimonial fade-in">
+  <p className="testimonial-text">&ldquo;The routine feature is a game-changer. I&rsquo;ve built habits I never thought possible.&rdquo;</p>
+  <p className="testimonial-author">- Jessica L.</p>
+</div>
         </div>
       </section>
 
@@ -346,19 +336,6 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="email-signup">
-            <h3>Get Notified When We Launch</h3>
-            <form className="email-form" onSubmit={handleEmailSubmit}>
-              <input 
-                type="email" 
-                name="email"
-                className="email-input" 
-                placeholder="Enter your email address" 
-                required 
-              />
-              <button type="submit" className="btn-primary">Notify Me</button>
-            </form>
-          </div>
         </div>
       </section>
 
