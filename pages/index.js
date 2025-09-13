@@ -323,7 +323,7 @@ export default function Home() {
       <section className="download-section" id="download">
         <div className="container">
           <h2 className="section-title">Ready to Transform Your Mornings?</h2>
-          <p className="section-subtitle">Join thousands who've revolutionized their wake-up experience</p>
+          <p className="section-subtitle">Join thousands who&rsquo;ve revolutionized their wake-up experience</p>
           
           <div className="download-buttons">
             <a href="#" className="app-store-btn">
