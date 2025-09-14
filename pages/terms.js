@@ -58,8 +58,7 @@ export default function Terms() {
 
               <div className="legal-section">
                 <h2>Disclaimer of Warranties</h2>
-                <p>Wake Up & Rise is provided "as is" without warranties of any kind. While we strive for reliability, we cannot guarantee the app will always function perfectly. Always have a backup alarm for important appointments.</p>
-              </div>
+<p>Wake Up & Rise is provided &quot;as is&quot; without warranties of any kind. While we strive for reliability, we cannot guarantee the app will always function perfectly. Always have a backup alarm for important appointments.</p>              </div>
 
               <div className="legal-section">
                 <h2>Limitation of Liability</h2>
