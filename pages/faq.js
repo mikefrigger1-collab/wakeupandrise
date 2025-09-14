@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import { useState } from 'react';
 
 export default function FAQ() {
@@ -64,9 +65,9 @@ export default function FAQ() {
           <div className="container">
             <div className="nav-container">
               <div className="logo">
-                <a href="/">Wake Up & Rise</a>
+                <Link href="/">Wake Up & Rise</Link>
               </div>
-              <a href="/" className="download-nav-btn">Back to Home</a>
+              <Link href="/" className="download-nav-btn">Back to Home</Link>
             </div>
           </div>
         </nav>

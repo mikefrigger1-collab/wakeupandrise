@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link'; 
 import { useState, useEffect } from 'react';
 
 export default function Home() {
@@ -357,9 +358,9 @@ export default function Home() {
             <div className="footer-section">
               <h3>Support</h3>
               <a href="mailto:support@wakeupandriseapp.com">Contact Support</a>
-              <a href="/privacy">Privacy Policy</a>
-              <a href="/terms">Terms of Service</a>
-              <a href="/faq">FAQ</a>
+<Link href="/privacy">Privacy Policy</Link>
+<Link href="/terms">Terms of Service</Link>
+<Link href="/faq">FAQ</Link>
             </div>
           </div>
           <div className="copyright">
