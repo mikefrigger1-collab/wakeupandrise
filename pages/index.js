@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 
 export default function Home() {
   const [currentTime, setCurrentTime] = useState('7:00');
+  const [activeTab, setActiveTab] = useState('alarm');
 
   useEffect(() => {
     const updateClock = () => {
@@ -41,109 +42,71 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.screenshot-slide');
-    const dots = document.querySelectorAll('.dot');
-    const prevBtn = document.querySelector('.slider-nav.prev');
-    const nextBtn = document.querySelector('.slider-nav.next');
-    const track = document.querySelector('.screenshot-track');
-    let autoRotateInterval;
-    let touchStartX = 0;
-    let touchEndX = 0;
+    // Initialize comparison slider - reinitialize on tab change
+    const wrapper = document.querySelector('.comparison-wrapper');
+    const slider = document.querySelector('.comparison-slider');
+    const before = document.querySelector('.comparison-before');
+    const after = document.querySelector('.comparison-after');
 
-    function showSlide(index) {
-      const currentActiveSlide = document.querySelector('.screenshot-slide.active');
-      const currentActiveDot = document.querySelector('.dot.active');
+    if (!wrapper || !slider || !before || !after) return;
 
-      if (currentActiveSlide) {
-        currentActiveSlide.classList.remove('active');
-      }
+    let isDragging = false;
 
-      if (currentActiveDot) {
-        currentActiveDot.classList.remove('active');
-      }
+    function updateSlider(clientX) {
+      const rect = wrapper.getBoundingClientRect();
+      const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+      let percentage = (x / rect.width) * 100;
 
-      slides[index].classList.add('active');
-      dots[index].classList.add('active');
+      // Constrain slider to stay within phone edges (15% to 85% of container width)
+      percentage = Math.max(15, Math.min(percentage, 85));
 
-      currentSlide = index;
+      before.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+      after.style.clipPath = `inset(0 0 0 ${percentage}%)`;
+      slider.style.left = `${percentage}%`;
     }
 
-    function nextSlide() {
-      const next = (currentSlide + 1) % slides.length;
-      showSlide(next);
+    function handleMove(e) {
+      if (!isDragging) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      updateSlider(clientX);
     }
 
-    function prevSlide() {
-      const prev = (currentSlide - 1 + slides.length) % slides.length;
-      showSlide(prev);
+    function handleStart(e) {
+      isDragging = true;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      updateSlider(clientX);
     }
 
-    function startAutoRotate() {
-      autoRotateInterval = setInterval(nextSlide, 8000);
+    function handleEnd() {
+      isDragging = false;
     }
 
-    function stopAutoRotate() {
-      clearInterval(autoRotateInterval);
-    }
+    // Mouse events
+    slider.addEventListener('mousedown', handleStart);
+    document.addEventListener('mousemove', handleMove);
+    document.addEventListener('mouseup', handleEnd);
 
-    function handleSwipe() {
-      const swipeThreshold = 50;
-      const diff = touchStartX - touchEndX;
+    // Touch events
+    slider.addEventListener('touchstart', handleStart, { passive: true });
+    document.addEventListener('touchmove', handleMove, { passive: true });
+    document.addEventListener('touchend', handleEnd);
 
-      if (Math.abs(diff) > swipeThreshold) {
-        if (diff > 0) {
-          nextSlide();
-        } else {
-          prevSlide();
-        }
-        stopAutoRotate();
-        startAutoRotate();
-      }
-    }
+    // Initial position (centered)
+    updateSlider(wrapper.getBoundingClientRect().left + wrapper.offsetWidth / 2);
 
-    if (prevBtn && nextBtn) {
-      prevBtn.addEventListener('click', () => {
-        prevSlide();
-        stopAutoRotate();
-        startAutoRotate();
-      });
-
-      nextBtn.addEventListener('click', () => {
-        nextSlide();
-        stopAutoRotate();
-        startAutoRotate();
-      });
-    }
-
-    if (track) {
-      track.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-      }, { passive: true });
-
-      track.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-      }, { passive: true });
-    }
-
-    dots.forEach((dot, index) => {
-      dot.addEventListener('click', () => {
-        showSlide(index);
-        stopAutoRotate();
-        startAutoRotate();
-      });
-    });
-
-    startAutoRotate();
-
+    // Cleanup
     return () => {
-      stopAutoRotate();
-      if (prevBtn && nextBtn) {
-        prevBtn.removeEventListener('click', prevSlide);
-        nextBtn.removeEventListener('click', nextSlide);
-      }
+      slider.removeEventListener('mousedown', handleStart);
+      document.removeEventListener('mousemove', handleMove);
+      document.removeEventListener('mouseup', handleEnd);
+      slider.removeEventListener('touchstart', handleStart);
+      document.removeEventListener('touchmove', handleMove);
+      document.removeEventListener('touchend', handleEnd);
     };
+  }, [activeTab]);
+
+  useEffect(() => {
+    // Screenshot slider removed - this useEffect is no longer needed
   }, []);
 
   return (
@@ -166,12 +129,6 @@ export default function Home() {
         <div className="container">
           <div className="nav-container">
             <div className="logo">Wake Up & Rise</div>
-            <ul className="nav-links">
-              <li><a href="#features">Features</a></li>
-              <li><a href="#how-it-works">How It Works</a></li>
-
-              <li><a href="#download">Download</a></li>
-            </ul>
             <a href="#download" className="download-nav-btn">Get App</a>
           </div>
         </div>
@@ -182,147 +139,276 @@ export default function Home() {
         <div className="container">
           <div className="hero-content">
             <div className="hero-text">
-              <h1>Transform Your Mornings</h1>
-              <p>The smart alarm app that makes waking up a joy, not a struggle. Features gradual volume ramping, custom audio import, morning routine builder, and reliable full-screen alarms.</p>
-              <div className="hero-buttons">
-                <a href="#download" className="btn-primary">Download Free</a>
-                <a href="#features" className="btn-secondary">See Features</a>
-              </div>
-            </div>
-            <div className="phone-mockup">
-              <div className="phone">
-                <div className="phone-screen">
-                  <div className="alarm-display">
-                    <div className="alarm-time">{currentTime}</div>
-                    <div className="alarm-label">Good Morning!</div>
-                  </div>
+              <h1>Wake up better.</h1>
+              <p className="hero-subheadline">The alarm that's a pleasure, not a pain. Wake up better, every day.</p>
+              <div className="hero-social-proof">
+                <div className="rating">
+                  <span className="stars">★★★★★</span>
+                  <span className="rating-text">4.8</span>
                 </div>
+                <span className="divider">•</span>
+                <span className="downloads">50,000+ downloads</span>
+              </div>
+              <div className="hero-store-badges">
+                <a href="#" className="store-badge">
+                  <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1630368000" alt="Download on the App Store" />
+                </a>
+                <a href="#" className="store-badge">
+                  <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" />
+                </a>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Problem/Solution Section */}
-      <section className="problem-solution">
+      {/* Interactive Comparison Section */}
+      <section className="comparison-section">
         <div className="container">
-          <h2 className="section-title">Tired of Harsh, Jarring Alarms?</h2>
-          <p className="section-subtitle">See how Wake Up & Rise transforms your morning routine</p>
+          <h2 className="section-title">See The Difference</h2>
+          <p className="section-subtitle">Drag the slider to compare traditional apps vs. Wake Up & Rise</p>
 
-          <div className="timeline-container">
-            <div className="timeline-section before-section fade-in">
-              <div className="timeline-header">
-                <div className="timeline-icon sad">😫</div>
-                <h3 className="timeline-title">Before</h3>
-                <p className="timeline-subtitle">Your typical morning</p>
-              </div>
-              <div className="timeline-path">
-                <div className="timeline-step">
-                  <div className="step-content">
-                    <h4>6:00 AM</h4>
-                    <p>Loud, jarring alarm blasts you awake</p>
+          <div className="comparison-slider-container">
+            <div className="comparison-wrapper">
+              {/* Alarm Comparison */}
+              {activeTab === 'alarm' && (
+                <>
+                  <div className="comparison-before">
+                    <div className="comparison-content">
+                      <div className="comparison-phone before-phone">
+                        <div className="comparison-phone-bezel before-bezel">
+                          <div className="comparison-notch"></div>
+                          <div className="comparison-screen before-screen">
+                            <div className="alarm-ui harsh">
+                              <div className="alarm-icon harsh-icon">⚠️</div>
+                              <div className="alarm-time-display harsh-time">7:00</div>
+                              <div className="alarm-label harsh-label">ALARM</div>
+                              <div className="volume-indicator harsh-volume">
+                                <div className="volume-bar full"></div>
+                                <div className="volume-bar full"></div>
+                                <div className="volume-bar full"></div>
+                                <div className="volume-bar full"></div>
+                                <div className="volume-bar full"></div>
+                              </div>
+                              <div className="alarm-actions">
+                                <button className="alarm-btn harsh-btn">STOP</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="comparison-label before-label">Traditional Alarm</div>
+                    </div>
                   </div>
-                  <div className="step-connector before"></div>
-                  <div className="step-icon before">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M6 18L18 6M6 6l12 12"/>
+
+                  <div className="comparison-after">
+                    <div className="comparison-content">
+                      <div className="comparison-phone after-phone">
+                        <div className="comparison-phone-bezel after-bezel">
+                          <div className="comparison-notch"></div>
+                          <div className="comparison-screen after-screen">
+                            <div className="alarm-ui gentle">
+                              <div className="alarm-icon gentle-icon">☀️</div>
+                              <div className="alarm-time-display gentle-time">7:00</div>
+                              <div className="alarm-label gentle-label">Good Morning</div>
+                              <div className="volume-indicator gentle-volume">
+                                <div className="volume-bar filled"></div>
+                                <div className="volume-bar filled"></div>
+                                <div className="volume-bar partial"></div>
+                                <div className="volume-bar"></div>
+                                <div className="volume-bar"></div>
+                              </div>
+                              <div className="alarm-actions">
+                                <button className="alarm-btn gentle-btn">Dismiss</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="comparison-label after-label">Wake Up & Rise</div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* Routine Comparison */}
+              {activeTab === 'routine' && (
+                <>
+                  <div className="comparison-before">
+                    <div className="comparison-content">
+                      <div className="comparison-phone before-phone">
+                        <div className="comparison-phone-bezel before-bezel">
+                          <div className="comparison-notch"></div>
+                          <div className="comparison-screen before-screen">
+                            <div className="routine-ui basic">
+                              <div className="routine-header harsh-text">Morning Checklist</div>
+                              <div className="routine-list">
+                                <div className="routine-item">☐ Wake up</div>
+                                <div className="routine-item">☐ Shower</div>
+                                <div className="routine-item">☐ Breakfast</div>
+                                <div className="routine-item">☐ Get dressed</div>
+                                <div className="routine-item">☐ Leave house</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="comparison-label before-label">Basic Checklist</div>
+                    </div>
+                  </div>
+
+                  <div className="comparison-after">
+                    <div className="comparison-content">
+                      <div className="comparison-phone after-phone">
+                        <div className="comparison-phone-bezel after-bezel">
+                          <div className="comparison-notch"></div>
+                          <div className="comparison-screen after-screen">
+                            <div className="routine-ui guided">
+                              <div className="routine-header gentle-text">Morning Routine</div>
+                              <div className="routine-progress">
+                                <div className="progress-bar">
+                                  <div className="progress-fill"></div>
+                                </div>
+                                <div className="progress-text">Step 2 of 5</div>
+                              </div>
+                              <div className="routine-current">
+                                <div className="routine-icon">🧘</div>
+                                <div className="routine-name">5-Min Meditation</div>
+                                <div className="routine-timer">2:30 remaining</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="comparison-label after-label">Guided Routine</div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* Audio Comparison */}
+              {activeTab === 'audio' && (
+                <>
+                  <div className="comparison-before">
+                    <div className="comparison-content">
+                      <div className="comparison-phone before-phone">
+                        <div className="comparison-phone-bezel before-bezel">
+                          <div className="comparison-notch"></div>
+                          <div className="comparison-screen before-screen">
+                            <div className="audio-ui basic">
+                              <div className="audio-header harsh-text">Select Sound</div>
+                              <div className="audio-list">
+                                <div className="audio-option">🔔 Default 1</div>
+                                <div className="audio-option">🔔 Default 2</div>
+                                <div className="audio-option">🔔 Default 3</div>
+                                <div className="audio-option">🔔 Default 4</div>
+                                <div className="audio-option">🔔 Default 5</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="comparison-label before-label">Limited Sounds</div>
+                    </div>
+                  </div>
+
+                  <div className="comparison-after">
+                    <div className="comparison-content">
+                      <div className="comparison-phone after-phone">
+                        <div className="comparison-phone-bezel after-bezel">
+                          <div className="comparison-notch"></div>
+                          <div className="comparison-screen after-screen">
+                            <div className="audio-ui custom">
+                              <div className="audio-header gentle-text">Your Audio</div>
+                              <div className="audio-categories">
+                                <div className="audio-category">
+                                  <div className="category-icon">🎵</div>
+                                  <div className="category-name">Music</div>
+                                </div>
+                                <div className="audio-category">
+                                  <div className="category-icon">🎧</div>
+                                  <div className="category-name">DJ Mixes</div>
+                                </div>
+                                <div className="audio-category">
+                                  <div className="category-icon">🎸</div>
+                                  <div className="category-name">Band Sets</div>
+                                </div>
+                              </div>
+                              <button className="import-btn">+ Import Audio</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="comparison-label after-label">Custom Audio</div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              <div className="comparison-slider">
+                <div className="slider-handle">
+                  <div className="slider-handle-line"></div>
+                  <div className="slider-handle-circle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                      <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                     </svg>
                   </div>
-                  <div className="step-connector before"></div>
-                </div>
-                <div className="timeline-step">
-                  <div className="step-content">
-                    <h4>6:20 AM</h4>
-                    <p>Hit snooze for the 3rd time</p>
-                  </div>
-                  <div className="step-connector before"></div>
-                  <div className="step-icon before">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                  </div>
-                  <div className="step-connector before"></div>
-                </div>
-                <div className="timeline-step">
-                  <div className="step-content">
-                    <h4>6:30 AM</h4>
-                    <p>Finally wake up groggy and stressed</p>
-                  </div>
-                  <div className="step-connector before"></div>
-                  <div className="step-icon before">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                  </div>
-                  <div className="step-connector before"></div>
-                </div>
-                <div className="timeline-step">
-                  <div className="step-content">
-                    <h4>7:00 AM</h4>
-                    <p>Rush through morning, feeling behind</p>
-                  </div>
+                  <div className="slider-handle-line"></div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="timeline-divider">
-              <div className="divider-line"></div>
+          {/* Carousel Navigation */}
+          <div className="comparison-carousel-nav">
+            <button
+              className="carousel-arrow carousel-arrow-prev"
+              onClick={() => {
+                const tabs = ['alarm', 'routine', 'audio'];
+                const currentIndex = tabs.indexOf(activeTab);
+                const prevIndex = currentIndex === 0 ? tabs.length - 1 : currentIndex - 1;
+                setActiveTab(tabs[prevIndex]);
+              }}
+              aria-label="Previous comparison"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M15 18l-6-6 6-6"/>
+              </svg>
+            </button>
+
+            <div className="comparison-carousel-dots">
+              <button
+                className={`carousel-dot ${activeTab === 'alarm' ? 'active' : ''}`}
+                onClick={() => setActiveTab('alarm')}
+                aria-label="Alarm comparison"
+              />
+              <button
+                className={`carousel-dot ${activeTab === 'routine' ? 'active' : ''}`}
+                onClick={() => setActiveTab('routine')}
+                aria-label="Routine comparison"
+              />
+              <button
+                className={`carousel-dot ${activeTab === 'audio' ? 'active' : ''}`}
+                onClick={() => setActiveTab('audio')}
+                aria-label="Audio comparison"
+              />
             </div>
 
-            <div className="timeline-section after-section fade-in">
-              <div className="timeline-header">
-                <div className="timeline-icon happy">😊</div>
-                <h3 className="timeline-title">After</h3>
-                <p className="timeline-subtitle">With Wake Up & Rise</p>
-              </div>
-              <div className="timeline-path">
-                <div className="timeline-step">
-                  <div className="step-content">
-                    <h4>6:00 AM</h4>
-                    <p>Gentle music gradually fades in</p>
-                  </div>
-                  <div className="step-connector after"></div>
-                  <div className="step-icon after">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
-                  </div>
-                  <div className="step-connector after"></div>
-                </div>
-                <div className="timeline-step">
-                  <div className="step-content">
-                    <h4>6:05 AM</h4>
-                    <p>Wake up naturally, feeling refreshed</p>
-                  </div>
-                  <div className="step-connector after"></div>
-                  <div className="step-icon after">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
-                  </div>
-                  <div className="step-connector after"></div>
-                </div>
-                <div className="timeline-step">
-                  <div className="step-content">
-                    <h4>6:15 AM</h4>
-                    <p>Follow your personalized morning routine</p>
-                  </div>
-                  <div className="step-connector after"></div>
-                  <div className="step-icon after">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
-                  </div>
-                  <div className="step-connector after"></div>
-                </div>
-                <div className="timeline-step">
-                  <div className="step-content">
-                    <h4>7:00 AM</h4>
-                    <p>Start your day energized and focused</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <button
+              className="carousel-arrow carousel-arrow-next"
+              onClick={() => {
+                const tabs = ['alarm', 'routine', 'audio'];
+                const currentIndex = tabs.indexOf(activeTab);
+                const nextIndex = currentIndex === tabs.length - 1 ? 0 : currentIndex + 1;
+                setActiveTab(tabs[nextIndex]);
+              }}
+              aria-label="Next comparison"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </button>
           </div>
         </div>
       </section>
@@ -335,161 +421,45 @@ export default function Home() {
           
           <div className="features-grid">
             <div className="feature-card fade-in">
-              <div className="feature-icon"><div className="feature-icon">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-    <path d="m19.07 4.93-1.41 1.41A8.5 8.5 0 0 1 19.07 19.07l1.41 1.41A10.5 10.5 0 0 0 19.07 4.93Z"></path>
-    <path d="m15.54 8.46-1.41 1.41a4 4 0 0 1 0 4.24l1.41 1.41a6 6 0 0 0 0-7.06Z"></path>
-  </svg>
-</div>
-</div>
+              <div className="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="m19.07 4.93-1.41 1.41A8.5 8.5 0 0 1 19.07 19.07l1.41 1.41A10.5 10.5 0 0 0 19.07 4.93Z"></path>
+                  <path d="m15.54 8.46-1.41 1.41a4 4 0 0 1 0 4.24l1.41 1.41a6 6 0 0 0 0-7.06Z"></path>
+                </svg>
+              </div>
               <h3 className="feature-title">Gradual Volume Ramping</h3>
-              <p className="feature-description">Never get startled awake again. Our smart volume ramping gradually increases from a gentle whisper to your preferred volume over 30 seconds to 5 minutes.</p>
+              <p className="feature-description">Gentle volume increase from whisper to full—no more jolting awake.</p>
             </div>
 
             <div className="feature-card fade-in">
-              <div className="feature-icon"><div className="feature-icon">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M9 18V5l12-2v13"></path>
-    <circle cx="6" cy="18" r="3"></circle>
-    <circle cx="18" cy="16" r="3"></circle>
-  </svg>
-</div></div>
-              <h3 className="feature-title">Custom Audio Import</h3>
-              <p className="feature-description">Wake up to your favorite songs, podcasts, or nature sounds. Our smart audio processing handles any format and optimizes for the perfect morning sound.</p>
+              <div className="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 18V5l12-2v13"></path>
+                  <circle cx="6" cy="18" r="3"></circle>
+                  <circle cx="18" cy="16" r="3"></circle>
+                </svg>
+              </div>
+              <h3 className="feature-title">Your Music, Your Way</h3>
+              <p className="feature-description">Import DJ mixes, band sets, or any audio. Random start points keep every morning fresh.</p>
             </div>
 
             <div className="feature-card fade-in">
-              <div className="feature-icon"><div className="feature-icon">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-    <line x1="12" y1="18" x2="12.01" y2="18"></line>
-  </svg>
-</div></div>
-              <h3 className="feature-title">Full-Screen Lock Bypass</h3>
-              <p className="feature-description">Never miss an alarm again. Our advanced full-screen alarm system works even when your phone is locked, in Do Not Disturb mode, or running other apps.</p>
-            </div>
-
-            <div className="feature-card fade-in">
-              <div className="feature-icon"><div className="feature-icon">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="16 3 21 3 21 8"></polyline>
-    <line x1="4" y1="20" x2="21" y2="3"></line>
-    <polyline points="21 16 21 21 16 21"></polyline>
-    <line x1="15" y1="15" x2="21" y2="21"></line>
-    <line x1="4" y1="4" x2="9" y2="9"></line>
-  </svg>
-</div></div>
-              <h3 className="feature-title">Random Start Points</h3>
-              <p className="feature-description">Perfect for long tracks and DJ mixes. Start your alarm at different points in your audio files for variety in your wake-up experience every day.</p>
-            </div>
-
-            <div className="feature-card fade-in">
-              <div className="feature-icon"><div className="feature-icon">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 2v8"></path>
-    <path d="m4.93 4.93 1.41 1.41"></path>
-    <path d="M2 12h2"></path>
-    <path d="m4.93 19.07 1.41-1.41"></path>
-    <path d="M12 22v-2"></path>
-    <path d="m19.07 19.07-1.41-1.41"></path>
-    <path d="M22 12h-2"></path>
-    <path d="m19.07 4.93-1.41 1.41"></path>
-    <circle cx="12" cy="12" r="4"></circle>
-  </svg>
-</div></div>
+              <div className="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2v8"></path>
+                  <path d="m4.93 4.93 1.41 1.41"></path>
+                  <path d="M2 12h2"></path>
+                  <path d="m4.93 19.07 1.41-1.41"></path>
+                  <path d="M12 22v-2"></path>
+                  <path d="m19.07 19.07-1.41-1.41"></path>
+                  <path d="M22 12h-2"></path>
+                  <path d="m19.07 4.93-1.41 1.41"></path>
+                  <circle cx="12" cy="12" r="4"></circle>
+                </svg>
+              </div>
               <h3 className="feature-title">Morning Routine Builder</h3>
-              <p className="feature-description">Build lasting habits with our library of 100+ guided morning activities. Track your progress and create the perfect start to every day.</p>
-            </div>
-
-            <div className="feature-card fade-in">
-              <div className="feature-icon"><div className="feature-icon">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-    <circle cx="9" cy="9" r="2"></circle>
-    <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
-  </svg>
-</div></div>
-              <h3 className="feature-title">Custom Wallpapers</h3>
-              <p className="feature-description">Personalize your wake-up experience with beautiful custom wallpapers that appear during your alarm. Choose from our collection or use your own photos.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Screenshots Section */}
-      <section className="screenshots" id="screenshots">
-        <div className="container">
-          <h2 className="section-title">See It In Action</h2>
-          <p className="section-subtitle">Experience the beautiful interface designed for morning people</p>
-
-          <div className="screenshot-slider">
-            <button className="slider-nav prev" aria-label="Previous screenshot">‹</button>
-            <button className="slider-nav next" aria-label="Next screenshot">›</button>
-
-            <div className="screenshot-track">
-              <div className="screenshot-slide active">
-                <div className="screenshot-device">
-                  <div className="screenshot-bezel">
-                    <div className="screenshot-notch"></div>
-                    <div className="screenshot-screen">
-                      <div className="screenshot-content">Main Alarm Interface</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="screenshot-slide">
-                <div className="screenshot-device">
-                  <div className="screenshot-bezel">
-                    <div className="screenshot-notch"></div>
-                    <div className="screenshot-screen">
-                      <div className="screenshot-content">Audio Selection</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="screenshot-slide">
-                <div className="screenshot-device">
-                  <div className="screenshot-bezel">
-                    <div className="screenshot-notch"></div>
-                    <div className="screenshot-screen">
-                      <div className="screenshot-content">Morning Routine</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="screenshot-slide">
-                <div className="screenshot-device">
-                  <div className="screenshot-bezel">
-                    <div className="screenshot-notch"></div>
-                    <div className="screenshot-screen">
-                      <div className="screenshot-content">Full-Screen Alarm</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="screenshot-slide">
-                <div className="screenshot-device">
-                  <div className="screenshot-bezel">
-                    <div className="screenshot-notch"></div>
-                    <div className="screenshot-screen">
-                      <div className="screenshot-content">Progress Tracking</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="slider-dots">
-              <span className="dot active" data-slide="0"></span>
-              <span className="dot" data-slide="1"></span>
-              <span className="dot" data-slide="2"></span>
-              <span className="dot" data-slide="3"></span>
-              <span className="dot" data-slide="4"></span>
+              <p className="feature-description">Build lasting habits with 100+ guided activities. Track progress and own your mornings.</p>
             </div>
           </div>
         </div>
@@ -516,28 +486,12 @@ export default function Home() {
       {/* Footer */}
       <footer>
         <div className="container">
-          <div className="footer-content">
-            <div className="footer-section">
-              <h3>Wake Up & Rise</h3>
-              <p>The smart alarm clock app that transforms your mornings with gradual volume ramping and personalized routines.</p>
-            </div>
-            <div className="footer-section">
-              <h3>Features</h3>
-              <a href="#features">Gradual Volume Alarm</a>
-              <a href="#features">Custom Audio Import</a>
-              <a href="#features">Morning Routine Builder</a>
-              <a href="#features">Full-Screen Alarms</a>
-            </div>
-            <div className="footer-section">
-              <h3>Support</h3>
-              <a href="mailto:support@wakeupandriseapp.com">Contact Support</a>
-<Link href="/privacy">Privacy Policy</Link>
-<Link href="/terms">Terms of Service</Link>
-<Link href="/faq">FAQ</Link>
-            </div>
-          </div>
           <div className="copyright">
             <p>&copy; 2025 Wake Up & Rise. All rights reserved.</p>
+            <div className="footer-links">
+              <Link href="/privacy">Privacy</Link>
+              <Link href="/terms">Terms</Link>
+            </div>
           </div>
         </div>
       </footer>
@@ -651,65 +605,121 @@ export default function Home() {
           min-height: 100vh;
           display: flex;
           align-items: center;
-          padding-top: 100px;
-          padding-bottom:50px;
-          background: linear-gradient(135deg, rgba(249, 250, 251, 0) 0%, rgba(237, 233, 254, 0.3) 100%);
+          justify-content: center;
+          padding: 150px 20px 100px;
+          background: #ffffff;
           position: relative;
           overflow: hidden;
         }
 
-        .hero::before {
-          content: '';
-          position: absolute;
-          top: -50%;
-          right: -20%;
-          width: 800px;
-          height: 800px;
-          background: radial-gradient(circle, rgba(30, 64, 175, 0.08) 0%, transparent 70%);
-          border-radius: 50%;
-          pointer-events: none;
-        }
-
         .hero-content {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 5rem;
+          display: flex;
+          flex-direction: column;
           align-items: center;
+          text-align: center;
           width: 100%;
           position: relative;
           z-index: 1;
         }
 
+        .hero-text {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 2rem;
+        }
+
         .hero-text h1 {
-          font-size: 4rem;
+          font-size: 8rem;
           font-weight: 800;
-          margin-bottom: 1.5rem;
+          margin: 0;
           background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          line-height: 1.4;
-          letter-spacing: -0.03em;
+          line-height: 0.95;
+          letter-spacing: -0.04em;
         }
 
-        .hero-text p {
-          font-size: 1.25rem;
-          margin-bottom: 2.5rem;
+        .hero-subheadline {
+          font-size: 1.5rem;
           color: #64748b;
-          line-height: 1.7;
+          max-width: 700px;
+          margin: 0;
+          line-height: 1.5;
           font-weight: 400;
         }
 
-        .hero-buttons {
+        .hero-social-proof {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          font-size: 1.1rem;
+          color: #475569;
+        }
+
+        .rating {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .stars {
+          color: #fbbf24;
+          font-size: 1.2rem;
+          letter-spacing: 2px;
+        }
+
+        .rating-text {
+          font-weight: 700;
+          color: #1e293b;
+        }
+
+        .divider {
+          color: #cbd5e1;
+        }
+
+        .downloads {
+          font-weight: 600;
+          color: #64748b;
+        }
+
+        .hero-store-badges {
           display: flex;
           gap: 1rem;
+          justify-content: center;
+          align-items: center;
           flex-wrap: wrap;
+          margin-top: 1rem;
+        }
+
+        .hero-store-badges .store-badge {
+          display: inline-block;
+          text-decoration: none;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-store-badges .store-badge img {
+          height: 60px;
+          width: auto;
+          display: block;
+        }
+
+        .hero-store-badges .store-badge:last-child img {
+          height: 90px;
+          margin: -15px 0;
+        }
+
+        .hero-store-badges .store-badge:hover {
+          transform: translateY(-4px);
+          opacity: 0.85;
         }
 
         .btn-primary {
           background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
           color: white;
-          padding: 1rem 2.25rem;
+          padding: 1.25rem 3rem;
           border: none;
           border-radius: 100px;
           font-size: 1.1rem;
@@ -718,163 +728,1131 @@ export default function Home() {
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           text-decoration: none;
           display: inline-block;
-          box-shadow: 0 -10px -10px 30px rgba(30, 64, 175, 0.1);
+          box-shadow: 0 4px 20px rgba(30, 64, 175, 0.2);
         }
 
         .btn-primary:hover {
           transform: translateY(-2px);
-          box-shadow: 0 15px 40px rgba(30, 64, 175, 0.4);
+          box-shadow: 0 8px 30px rgba(30, 64, 175, 0.4);
         }
 
-        .btn-secondary {
-          background: rgba(30, 64, 175, 0.05);
-          color: #1e40af;
-          padding: 1rem 2.25rem;
-          border: 2px solid rgba(30, 64, 175, 0.2);
-          border-radius: 100px;
-          font-size: 1.1rem;
+        /* Comparison Slider Section */
+        .comparison-section {
+          padding: 6rem 0;
+          background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+        }
+
+        /* Carousel Navigation */
+        .comparison-carousel-nav {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 2rem;
+          margin: 3rem auto 0;
+        }
+
+        .carousel-arrow {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: white;
+          border: 2px solid rgba(226, 232, 240, 0.8);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          color: #64748b;
+        }
+
+        .carousel-arrow:hover {
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          border-color: transparent;
+          color: white;
+          transform: scale(1.1);
+          box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
+        }
+
+        .carousel-arrow svg {
+          width: 20px;
+          height: 20px;
+        }
+
+        .comparison-carousel-dots {
+          display: flex;
+          gap: 0.75rem;
+          justify-content: center;
+        }
+
+        .carousel-dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: rgba(30, 64, 175, 0.2);
+          border: none;
+          cursor: pointer;
+          padding: 0;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+        }
+
+        .carousel-dot:hover {
+          background: rgba(30, 64, 175, 0.4);
+          transform: scale(1.2);
+        }
+
+        .carousel-dot.active {
+          width: 32px;
+          border-radius: 5px;
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          box-shadow: 0 2px 8px rgba(30, 64, 175, 0.3);
+        }
+
+        .comparison-tabs {
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+          margin: 3rem auto 2rem;
+          max-width: 600px;
+        }
+
+        .comparison-tab {
+          flex: 1;
+          padding: 1rem 1.5rem;
+          background: white;
+          border: 2px solid rgba(226, 232, 240, 0.8);
+          border-radius: 12px;
+          font-size: 1rem;
           font-weight: 600;
+          color: #64748b;
           cursor: pointer;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          text-decoration: none;
-          display: inline-block;
+          font-family: 'Inter', sans-serif;
         }
 
-        .btn-secondary:hover {
-          background: rgba(30, 64, 175, 0.1);
+        .comparison-tab:hover {
           border-color: #1e40af;
+          color: #1e40af;
           transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(30, 64, 175, 0.1);
         }
 
-        .phone-mockup {
-          display: flex;
-          justify-content: center;
-          align-items: center;
+        .comparison-tab.active {
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          border-color: #1e40af;
+          color: white;
+          box-shadow: 0 4px 15px rgba(30, 64, 175, 0.15);
         }
 
-        .phone {
-          width: 320px;
-          height: 640px;
-          background: linear-gradient(145deg, #1e293b, #0f172a);
-          border-radius: 48px;
-          padding: 5px;
-          box-shadow:
-            0 30px 30px rgba(0, 0, 0, 0.1),
-            0 0 0 2px rgba(51, 65, 85, 0.2),
-            inset 0 1px 2px rgba(255, 255, 255, 0.15);
+        .comparison-slider-container {
+          max-width: 900px;
+          margin: 4rem auto 0;
+        }
+
+        .comparison-wrapper {
           position: relative;
-          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          width: 100%;
+          min-height: 600px;
+          overflow: hidden;
+          border-radius: 24px;
         }
 
-        .phone:hover {
-          transform: translateY(-8px) scale(1.02);
-        }
-
-        .phone::before {
-          content: '';
+        .comparison-before,
+        .comparison-after {
           position: absolute;
-          top: 5px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 120px;
-          height: 28px;
-          background: #000000;
-          border-radius: 0 0 20px 20px;
-          z-index: 10;
-          box-shadow:
-            inset 0 -2px 4px rgba(255, 255, 255, 0.1),
-            0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .phone::after {
-          content: '';
-          position: absolute;
-          top: 13px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 8px;
-          height: 8px;
-          background: #1e3a8a;
-          border-radius: 50%;
-          opacity: 0.7;
-          z-index: 11;
-        }
-
-        .phone-screen {
+          top: 0;
+          left: 0;
           width: 100%;
           height: 100%;
-          background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%);
-          border-radius: 40px;
+        }
+
+        .comparison-content {
+          width: 100%;
+          height: 100%;
           display: flex;
           flex-direction: column;
-          justify-content: center;
           align-items: center;
-          position: relative;
-          overflow: hidden;
+          justify-content: center;
+          padding: 3rem 2rem;
         }
 
-        .phone-screen::before {
+        .comparison-phone {
+          width: 240px;
+          margin-bottom: 1.5rem;
+        }
+
+        .comparison-phone-bezel {
+          background: linear-gradient(145deg, #1e293b, #0f172a);
+          border-radius: 40px;
+          padding: 4px;
+          box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.2),
+            0 0 0 2px rgba(51, 65, 85, 0.4),
+            inset 0 1px 2px rgba(255, 255, 255, 0.15);
+          position: relative;
+        }
+
+        .comparison-notch {
+          position: absolute;
+          top: 8px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 12px;
+          height: 12px;
+          background: radial-gradient(circle at 30% 30%, #1a1f3a, #000000);
+          border-radius: 50%;
+          z-index: 10;
+          box-shadow:
+            inset 0 1px 2px rgba(255, 255, 255, 0.1),
+            0 0 0 1px rgba(100, 100, 150, 0.2),
+            0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .comparison-notch::after {
           content: '';
           position: absolute;
-          top: -50%;
-          left: -50%;
-          width: 200%;
-          height: 200%;
-          background: radial-gradient(circle, rgba(30, 64, 175, 0.15) 0%, transparent 70%);
-          animation: pulse 8s ease-in-out infinite;
+          top: 2px;
+          left: 2px;
+          width: 4px;
+          height: 4px;
+          background: rgba(100, 150, 255, 0.3);
+          border-radius: 50%;
+          filter: blur(1px);
         }
 
-        @keyframes pulse {
-          0%, 100% { transform: scale(1); opacity: 0.5; }
-          50% { transform: scale(1.1); opacity: 0.8; }
+        .comparison-screen {
+          aspect-ratio: 9 / 19.5;
+          border-radius: 36px;
+          overflow: hidden;
+          position: relative;
         }
 
-        .alarm-display {
-          text-align: center;
+        .before-screen {
+          background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+        }
+
+        .after-screen {
+          background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        }
+
+        .alarm-ui {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 2rem 1.5rem;
+          gap: 1.5rem;
+        }
+
+        .alarm-icon {
+          font-size: 4rem;
+          animation: pulse-icon 2s ease-in-out infinite;
+        }
+
+        .harsh-icon {
+          filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5));
+        }
+
+        .gentle-icon {
+          filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.5));
+        }
+
+        @keyframes pulse-icon {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.1); }
+        }
+
+        .alarm-time-display {
+          font-size: 3.5rem;
+          font-weight: 800;
+          letter-spacing: -0.02em;
+        }
+
+        .harsh-time {
+          color: #ffffff;
+          text-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+        }
+
+        .gentle-time {
           background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          position: relative;
-          z-index: 1;
-        }
-
-        .alarm-time {
-          font-size: 3.5rem;
-          font-weight: 800;
-          margin-bottom: 1rem;
-          letter-spacing: -0.02em;
         }
 
         .alarm-label {
-          font-size: 1.1rem;
-          opacity: 0.9;
+          font-size: 1.2rem;
           font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
         }
 
-        /* Problem/Solution Section */
-        .problem-solution {
-          padding: 6rem 0;
-          background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-          position: relative;
+        .harsh-label {
+          color: #ffffff;
+          animation: blink 1s step-start infinite;
+        }
+
+        @keyframes blink {
+          50% { opacity: 0.5; }
+        }
+
+        .gentle-label {
+          color: #64748b;
+        }
+
+        .volume-indicator {
+          display: flex;
+          gap: 0.5rem;
+          align-items: flex-end;
+          height: 60px;
+        }
+
+        .volume-bar {
+          width: 12px;
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 6px;
+          transition: all 0.3s ease;
+        }
+
+        .volume-bar:nth-child(1) { height: 20%; }
+        .volume-bar:nth-child(2) { height: 40%; }
+        .volume-bar:nth-child(3) { height: 60%; }
+        .volume-bar:nth-child(4) { height: 80%; }
+        .volume-bar:nth-child(5) { height: 100%; }
+
+        .harsh-volume .volume-bar.full {
+          background: #ffffff;
+          box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+          animation: shake 0.5s ease-in-out infinite;
+        }
+
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-2px); }
+          75% { transform: translateX(2px); }
+        }
+
+        .gentle-volume .volume-bar.filled {
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+        }
+
+        .gentle-volume .volume-bar.partial {
+          background: linear-gradient(135deg, #1e40af 0%, rgba(30, 64, 175, 0.3) 100%);
+        }
+
+        .alarm-actions {
+          margin-top: 1rem;
+        }
+
+        .alarm-btn {
+          padding: 1rem 3rem;
+          border: none;
+          border-radius: 100px;
+          font-size: 1.1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .harsh-btn {
+          background: #ffffff;
+          color: #dc2626;
+          box-shadow: 0 4px 20px rgba(255, 0, 0, 0.3);
+        }
+
+        .harsh-btn:hover {
+          transform: scale(1.05);
+        }
+
+        .gentle-btn {
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          color: white;
+          box-shadow: 0 4px 20px rgba(30, 64, 175, 0.3);
+        }
+
+        .gentle-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 30px rgba(30, 64, 175, 0.4);
+        }
+
+        /* Routine UI Styles */
+        .routine-ui {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          padding: 2rem 1.5rem;
+          gap: 1.5rem;
+        }
+
+        .routine-ui.basic {
+          justify-content: flex-start;
+        }
+
+        .routine-ui.guided {
+          justify-content: center;
+        }
+
+        .routine-header {
+          font-size: 1.5rem;
+          font-weight: 700;
+          text-align: center;
+          margin-bottom: 1rem;
+        }
+
+        .harsh-text {
+          color: #ffffff;
+        }
+
+        .gentle-text {
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .routine-list {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .routine-item {
+          font-size: 1.1rem;
+          color: #ffffff;
+          padding: 0.75rem;
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 8px;
+        }
+
+        .routine-progress {
+          margin-bottom: 2rem;
+        }
+
+        .progress-bar {
+          width: 100%;
+          height: 8px;
+          background: rgba(30, 64, 175, 0.2);
+          border-radius: 100px;
           overflow: hidden;
+          margin-bottom: 0.5rem;
         }
 
-        .problem-solution::before {
-          content: '';
+        .progress-fill {
+          width: 40%;
+          height: 100%;
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          border-radius: 100px;
+          animation: progress-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes progress-pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.7; }
+        }
+
+        .progress-text {
+          font-size: 0.9rem;
+          color: #64748b;
+          text-align: center;
+        }
+
+        .routine-current {
+          text-align: center;
+          padding: 2rem;
+          background: rgba(30, 64, 175, 0.05);
+          border-radius: 16px;
+          border: 2px solid rgba(30, 64, 175, 0.1);
+        }
+
+        .routine-icon {
+          font-size: 3rem;
+          margin-bottom: 1rem;
+        }
+
+        .routine-name {
+          font-size: 1.3rem;
+          font-weight: 700;
+          color: #1e293b;
+          margin-bottom: 0.5rem;
+        }
+
+        .routine-timer {
+          font-size: 1rem;
+          color: #64748b;
+        }
+
+        /* Audio UI Styles */
+        .audio-ui {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          padding: 2rem 1.5rem;
+          gap: 1.5rem;
+        }
+
+        .audio-ui.basic {
+          justify-content: flex-start;
+        }
+
+        .audio-ui.custom {
+          justify-content: center;
+        }
+
+        .audio-header {
+          font-size: 1.5rem;
+          font-weight: 700;
+          text-align: center;
+          margin-bottom: 1rem;
+        }
+
+        .audio-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .audio-option {
+          font-size: 1.1rem;
+          color: #ffffff;
+          padding: 0.75rem;
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 8px;
+          text-align: center;
+        }
+
+        .audio-categories {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .audio-category {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          padding: 1rem;
+          background: rgba(30, 64, 175, 0.05);
+          border: 2px solid rgba(30, 64, 175, 0.1);
+          border-radius: 12px;
+          transition: all 0.3s ease;
+        }
+
+        .audio-category:hover {
+          background: rgba(30, 64, 175, 0.1);
+          border-color: rgba(30, 64, 175, 0.2);
+        }
+
+        .category-icon {
+          font-size: 2rem;
+        }
+
+        .category-name {
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: #1e293b;
+        }
+
+        .import-btn {
+          width: 100%;
+          padding: 1rem;
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          color: white;
+          border: none;
+          border-radius: 12px;
+          font-size: 1.1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .import-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(30, 64, 175, 0.3);
+        }
+
+        .comparison-label {
+          font-size: 1.25rem;
+          font-weight: 700;
+          text-align: center;
+        }
+
+        .before-label {
+          color: #dc2626;
+        }
+
+        .after-label {
+          color: #1e40af;
+        }
+
+        .comparison-slider {
           position: absolute;
           top: 0;
           left: 50%;
-          transform: translateX(-50%);
-          width: 1px;
+          width: 4px;
           height: 100%;
-          background: linear-gradient(180deg, transparent 0%, rgba(30, 64, 175, 0.1) 20%, rgba(30, 64, 175, 0.1) 80%, transparent 100%);
-          pointer-events: none;
+          background: transparent;
+          cursor: ew-resize;
+          z-index: 100;
+        }
+
+        .slider-handle {
+          position: relative;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .slider-handle-line {
+          flex: 1;
+          width: 2px;
+          background: linear-gradient(to bottom,
+            transparent 0%,
+            white 10%,
+            white 90%,
+            transparent 100%);
+        }
+
+        .slider-handle-circle {
+          width: 60px;
+          height: 60px;
+          background: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+          color: #1e40af;
+          cursor: grab;
+          transition: all 0.3s ease;
+        }
+
+        .slider-handle-circle:hover {
+          transform: scale(1.1);
+          box-shadow: 0 6px 30px rgba(30, 64, 175, 0.4);
+        }
+
+        .slider-handle-circle:active {
+          cursor: grabbing;
+        }
+
+        /* Routine Screens */
+        .routine-before-screen {
+          background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+        }
+
+        .routine-after-screen {
+          background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        }
+
+        .routine-ui {
+          height: 100%;
+          padding: 2rem 1.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+
+        .routine-header {
+          font-size: 1.3rem;
+          font-weight: 700;
+          text-align: center;
+        }
+
+        .harsh-text {
+          color: #374151;
+        }
+
+        .gentle-text {
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .routine-list {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .routine-item {
+          padding: 0.75rem 1rem;
+          background: rgba(255, 255, 255, 0.5);
+          border-radius: 8px;
+          font-size: 0.95rem;
+          color: #374151;
+        }
+
+        .routine-progress {
+          text-align: center;
+        }
+
+        .progress-bar {
+          width: 100%;
+          height: 8px;
+          background: rgba(30, 64, 175, 0.1);
+          border-radius: 4px;
+          overflow: hidden;
+          margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+          width: 40%;
+          height: 100%;
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          border-radius: 4px;
+        }
+
+        .progress-text {
+          font-size: 0.9rem;
+          color: #64748b;
+        }
+
+        .routine-current {
+          background: rgba(255, 255, 255, 0.8);
+          padding: 2rem 1.5rem;
+          border-radius: 16px;
+          text-align: center;
+        }
+
+        .routine-icon {
+          font-size: 3rem;
+          margin-bottom: 1rem;
+        }
+
+        .routine-name {
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: #1e293b;
+          margin-bottom: 0.5rem;
+        }
+
+        .routine-timer {
+          font-size: 1rem;
+          color: #64748b;
+        }
+
+        /* Audio Screens */
+        .audio-before-screen {
+          background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+        }
+
+        .audio-after-screen {
+          background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        }
+
+        .audio-ui {
+          height: 100%;
+          padding: 2rem 1.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+
+        .audio-header {
+          font-size: 1.3rem;
+          font-weight: 700;
+          text-align: center;
+        }
+
+        .audio-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .audio-option {
+          padding: 1rem;
+          background: rgba(255, 255, 255, 0.5);
+          border-radius: 8px;
+          font-size: 0.95rem;
+          color: #374151;
+        }
+
+        .audio-categories {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1rem;
+          flex: 1;
+        }
+
+        .audio-category {
+          background: rgba(255, 255, 255, 0.8);
+          padding: 1.5rem;
+          border-radius: 12px;
+          text-align: center;
+          transition: all 0.3s ease;
+        }
+
+        .category-icon {
+          font-size: 2.5rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .category-name {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #1e293b;
+        }
+
+        .import-btn {
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          color: white;
+          padding: 1rem 2rem;
+          border: none;
+          border-radius: 12px;
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-family: 'Inter', sans-serif;
+        }
+
+        /* Settings Screens */
+        .settings-before-screen {
+          background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+        }
+
+        .settings-after-screen {
+          background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        }
+
+        .settings-ui {
+          height: 100%;
+          padding: 2rem 1.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+
+        .settings-header {
+          font-size: 1.3rem;
+          font-weight: 700;
+          text-align: center;
+        }
+
+        .settings-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .setting-item {
+          padding: 0.75rem 1rem;
+          background: rgba(255, 255, 255, 0.5);
+          border-radius: 6px;
+          font-size: 0.85rem;
+          color: #374151;
+        }
+
+        .settings-cards {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          flex: 1;
+        }
+
+        .setting-card {
+          background: rgba(255, 255, 255, 0.8);
+          padding: 1.5rem;
+          border-radius: 12px;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .card-icon {
+          font-size: 2rem;
+        }
+
+        .card-title {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #1e293b;
+        }
+
+        .card-value {
+          font-size: 0.9rem;
+          color: #64748b;
+        }
+
+        @media (max-width: 768px) {
+          .comparison-wrapper {
+            min-height: 650px;
+          }
+
+          .comparison-phone {
+            width: 220px;
+          }
+
+          .comparison-content {
+            padding: 2.5rem 1.5rem;
+          }
+
+          .comparison-label {
+            font-size: 1.1rem;
+          }
+
+          .alarm-ui {
+            gap: 1.25rem;
+            padding: 1.75rem 1.25rem;
+          }
+
+          .alarm-time-display {
+            font-size: 2.75rem;
+          }
+
+          .alarm-icon {
+            font-size: 3rem;
+          }
+
+          .alarm-label {
+            font-size: 1rem;
+          }
+
+          .alarm-btn {
+            padding: 0.875rem 2.5rem;
+            font-size: 0.95rem;
+          }
+
+          .volume-indicator {
+            height: 50px;
+          }
+
+          .volume-bar {
+            width: 10px;
+          }
+
+          .routine-ui {
+            padding: 1.75rem 1.25rem;
+            gap: 1.25rem;
+          }
+
+          .routine-header {
+            font-size: 1.15rem;
+          }
+
+          .routine-item {
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+          }
+
+          .routine-icon {
+            font-size: 2.75rem;
+          }
+
+          .routine-name {
+            font-size: 1.1rem;
+          }
+
+          .routine-timer {
+            font-size: 0.95rem;
+          }
+
+          .routine-current {
+            padding: 1.75rem 1.25rem;
+          }
+
+          .progress-text {
+            font-size: 0.85rem;
+          }
+
+          .audio-ui {
+            padding: 1.75rem 1.25rem;
+            gap: 1.25rem;
+          }
+
+          .audio-header {
+            font-size: 1.15rem;
+          }
+
+          .audio-option {
+            padding: 0.875rem 1rem;
+            font-size: 0.9rem;
+          }
+
+          .audio-category {
+            padding: 1.5rem 1.25rem;
+          }
+
+          .category-icon {
+            font-size: 2.25rem;
+          }
+
+          .category-name {
+            font-size: 0.95rem;
+          }
+
+          .import-btn {
+            padding: 0.875rem 2rem;
+            font-size: 0.95rem;
+          }
+
+          .slider-handle-circle {
+            width: 50px;
+            height: 50px;
+          }
+
+          .slider-handle-circle svg {
+            width: 20px;
+            height: 20px;
+          }
+
+          .comparison-tabs {
+            gap: 0.5rem;
+            max-width: 100%;
+          }
+
+          .comparison-tab {
+            padding: 0.875rem 1.25rem;
+            font-size: 0.95rem;
+            border-radius: 10px;
+          }
+
+          .section-title {
+            font-size: 2.25rem;
+          }
+
+          .section-subtitle {
+            font-size: 1.1rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .comparison-wrapper {
+            min-height: 600px;
+          }
+
+          .comparison-phone {
+            width: 200px;
+          }
+
+          .comparison-content {
+            padding: 2rem 1rem;
+          }
+
+          .comparison-label {
+            font-size: 1rem;
+          }
+
+          .alarm-ui {
+            gap: 1rem;
+            padding: 1.5rem 1rem;
+          }
+
+          .alarm-time-display {
+            font-size: 2.5rem;
+          }
+
+          .alarm-icon {
+            font-size: 2.5rem;
+          }
+
+          .alarm-label {
+            font-size: 0.95rem;
+          }
+
+          .alarm-btn {
+            padding: 0.75rem 2rem;
+            font-size: 0.9rem;
+          }
+
+          .volume-indicator {
+            height: 45px;
+          }
+
+          .volume-bar {
+            width: 9px;
+          }
+
+          .routine-ui {
+            padding: 1.5rem 1rem;
+            gap: 1rem;
+          }
+
+          .routine-header {
+            font-size: 1.05rem;
+          }
+
+          .routine-item {
+            padding: 0.625rem 0.875rem;
+            font-size: 0.85rem;
+          }
+
+          .routine-icon {
+            font-size: 2.5rem;
+          }
+
+          .routine-name {
+            font-size: 1rem;
+          }
+
+          .routine-timer {
+            font-size: 0.9rem;
+          }
+
+          .routine-current {
+            padding: 1.5rem 1rem;
+          }
+
+          .progress-text {
+            font-size: 0.8rem;
+          }
+
+          .audio-ui {
+            padding: 1.5rem 1rem;
+            gap: 1rem;
+          }
+
+          .audio-header {
+            font-size: 1.05rem;
+          }
+
+          .audio-option {
+            padding: 0.75rem 0.875rem;
+            font-size: 0.85rem;
+          }
+
+          .audio-category {
+            padding: 1.25rem 1rem;
+          }
+
+          .category-icon {
+            font-size: 2rem;
+          }
+
+          .category-name {
+            font-size: 0.9rem;
+          }
+
+          .import-btn {
+            padding: 0.75rem 1.75rem;
+            font-size: 0.9rem;
+          }
+
+          .comparison-tab {
+            padding: 0.75rem 1rem;
+            font-size: 0.85rem;
+          }
+
+          .section-title {
+            font-size: 2rem;
+          }
+
+          .section-subtitle {
+            font-size: 1rem;
+          }
         }
 
         .section-title {
           text-align: center;
           font-size: 3rem;
+          line-height: 3.5rem;
           font-weight: 800;
           margin-bottom: 1rem;
           background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
@@ -890,185 +1868,6 @@ export default function Home() {
           color: #64748b;
           margin-bottom: 4rem;
           font-weight: 400;
-        }
-
-        .timeline-container {
-          display: grid;
-          grid-template-columns: 1fr auto 1fr;
-          gap: 3rem;
-          margin-top: 3rem;
-          align-items: start;
-        }
-
-        .timeline-section {
-          position: relative;
-        }
-
-        .timeline-header {
-          text-align: center;
-          margin-bottom: 3rem;
-        }
-
-        .timeline-icon {
-          width: 80px;
-          height: 80px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 2.5rem;
-          margin: 0 auto 1rem;
-          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .timeline-icon.sad {
-          background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
-        }
-
-        .timeline-icon.happy {
-          background: linear-gradient(135deg, #047857 0%, #065f46 100%);
-        }
-
-        .timeline-title {
-          font-size: 2rem;
-          font-weight: 700;
-          margin-bottom: 0.5rem;
-          color: #1e293b;
-        }
-
-        .timeline-subtitle {
-          font-size: 1.1rem;
-          color: #64748b;
-        }
-
-        .timeline-path {
-          position: relative;
-        }
-
-        .timeline-step {
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-
-        .timeline-step:last-child {
-          margin-bottom: 0;
-        }
-
-        .step-connector {
-          width: 2px;
-          height: 2rem;
-          opacity: 0.3;
-          margin: 0.5rem 0;
-        }
-
-        .step-connector.before {
-          background: linear-gradient(180deg, #b91c1c 0%, #991b1b 100%);
-        }
-
-        .step-connector.after {
-          background: linear-gradient(180deg, #047857 0%, #065f46 100%);
-        }
-
-        .timeline-step:last-child .step-connector {
-          display: none;
-        }
-
-        .step-icon {
-          width: 2.8rem;
-          height: 2.8rem;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-          z-index: 1;
-          flex-shrink: 0;
-        }
-
-        .step-icon.before {
-          background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
-          color: white;
-        }
-
-        .step-icon.after {
-          background: linear-gradient(135deg, #047857 0%, #065f46 100%);
-          color: white;
-        }
-
-        .step-icon svg {
-          width: 1.2rem;
-          height: 1.2rem;
-          stroke-width: 3;
-        }
-
-        .step-content {
-          background: white;
-          padding: 1.5rem 2rem;
-          border-radius: 16px;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-          border: 1px solid rgba(226, 232, 240, 0.8);
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          text-align: center;
-          width: 100%;
-          max-width: 400px;
-        }
-
-        .before-section .step-content {
-          border-top: 3px solid #b91c1c;
-        }
-
-        .after-section .step-content {
-          border-top: 3px solid #047857;
-        }
-
-        .step-content:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .step-content h4 {
-          font-size: 1.1rem;
-          font-weight: 700;
-          color: #1e293b;
-          margin-bottom: 0.5rem;
-        }
-
-        .step-content p {
-          font-size: 1rem;
-          color: #64748b;
-          line-height: 1.6;
-          margin: 0;
-        }
-
-        .timeline-divider {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          padding-top: 8rem;
-        }
-
-        .divider-line {
-          width: 1px;
-          flex: 1;
-          background: linear-gradient(180deg, transparent 0%, rgba(30, 64, 175, 0.2) 50%, transparent 100%);
-        }
-
-        .divider-icon {
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
-          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
-          color: white;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 2rem;
-          font-weight: bold;
-          box-shadow: 0 10px 40px rgba(30, 64, 175, 0.3);
-          margin: 1rem 0;
         }
 
         .feature-icon svg {
@@ -1140,189 +1939,6 @@ export default function Home() {
           color: #64748b;
           line-height: 1.7;
           font-size: 1.05rem;
-        }
-
-        /* Screenshots Section */
-        .screenshots {
-          padding: 6rem 0;
-          background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
-        }
-
-        .screenshot-slider {
-          position: relative;
-          max-width: 300px;
-          max-height: calc(100vh - 300px);
-          margin: 4rem auto 0;
-        }
-
-        .screenshot-track {
-          position: relative;
-          aspect-ratio: 9 / 19.5;
-          max-height: 70vh;
-          margin: 0 auto;
-        }
-
-        .screenshot-slide {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          opacity: 0;
-          transition: opacity 0.8s ease-in-out;
-          pointer-events: none;
-        }
-
-        .screenshot-slide.active {
-          opacity: 1;
-          pointer-events: auto;
-        }
-
-        .screenshot-device {
-          margin: 0 auto;
-        }
-
-        .screenshot-bezel {
-          background: linear-gradient(145deg, #1e293b, #0f172a);
-          border-radius: 48px;
-          padding: 5px;
-          box-shadow:
-            0 30px 60px rgba(0, 0, 0, 0.25),
-            0 0 0 2px rgba(51, 65, 85, 0.5),
-            inset 0 1px 2px rgba(255, 255, 255, 0.15);
-          position: relative;
-        }
-
-        .screenshot-notch {
-          position: absolute;
-          top: 5px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 120px;
-          height: 28px;
-          background: #000000;
-          border-radius: 0 0 20px 20px;
-          z-index: 10;
-          box-shadow:
-            inset 0 -2px 4px rgba(255, 255, 255, 0.1),
-            0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .screenshot-notch::before {
-          content: '';
-          position: absolute;
-          top: 8px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 8px;
-          height: 8px;
-          background: #1e3a8a;
-          border-radius: 50%;
-          opacity: 0.7;
-        }
-
-        .screenshot-notch::after {
-          content: '';
-          position: absolute;
-          top: 10px;
-          right: 20px;
-          width: 12px;
-          height: 4px;
-          background: rgba(148, 163, 184, 0.4);
-          border-radius: 2px;
-        }
-
-        .screenshot-screen {
-          aspect-ratio: 9 / 19.5;
-          background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%);
-          border-radius: 40px;
-          overflow: hidden;
-          position: relative;
-        }
-
-        .screenshot-content {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1.1rem;
-          font-weight: 700;
-          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          text-align: center;
-          padding: 2rem;
-        }
-
-        .slider-nav {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          background: rgba(255, 255, 255, 0.9);
-          border: none;
-          width: 48px;
-          height: 48px;
-          border-radius: 50%;
-          font-size: 2rem;
-          color: #1e40af;
-          cursor: pointer;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          z-index: 10;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .slider-nav:hover {
-          background: #ffffff;
-          transform: translateY(-50%) scale(1.1);
-          box-shadow: 0 8px 20px rgba(30, 64, 175, 0.2);
-        }
-
-        .slider-nav.prev {
-          left: -70px;
-        }
-
-        .slider-nav.next {
-          right: -70px;
-        }
-
-        .slider-dots {
-          display: flex;
-          justify-content: center;
-          gap: 0.75rem;
-          margin-top: 2rem;
-        }
-
-        .dot {
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          background: rgba(30, 64, 175, 0.2);
-          cursor: pointer;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .dot.active {
-          background: #1e40af;
-          transform: scale(1.2);
-        }
-
-        .dot:hover {
-          background: rgba(30, 64, 175, 0.5);
-        }
-
-        @media (max-width: 768px) {
-          .screenshot-slider {
-            max-width: 280px;
-          }
-
-          .slider-nav {
-            display: none;
-          }
         }
 
         /* Social Proof Section */
@@ -1477,7 +2093,7 @@ export default function Home() {
 
         /* Download Section */
         .download-section {
-          padding: 6rem 0;
+          padding: 6rem 0 8rem;
           text-align: center;
         }
 
@@ -1502,8 +2118,9 @@ export default function Home() {
           display: block;
         }
 
-        .store-badge:last-child img {
-          height: 80px;
+        .download-buttons .store-badge:last-child img {
+          height: 90px;
+          margin: -15px 0;
         }
 
         .store-badge:hover {
@@ -1556,52 +2173,36 @@ export default function Home() {
 
         /* Footer */
         footer {
-          background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-          padding: 3rem 0 1rem;
+          background: #f8fafc;
+          padding: 2rem 0;
           border-top: 1px solid rgba(226, 232, 240, 0.8);
         }
 
-        .footer-content {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 2rem;
-          margin-bottom: 2rem;
+        .copyright {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          color: #64748b;
+          font-size: 0.9rem;
         }
 
-        .footer-section h3 {
-          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          margin-bottom: 1rem;
-          font-weight: 700;
-          font-size: 1.1rem;
+        .copyright p {
+          margin: 0;
         }
 
-        .footer-section a {
+        .footer-links {
+          display: flex;
+          gap: 1.5rem;
+        }
+
+        .footer-links a {
           color: #64748b;
           text-decoration: none;
-          display: block;
-          margin-bottom: 0.5rem;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          font-size: 0.95rem;
+          transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .footer-section a:hover {
+        .footer-links a:hover {
           color: #1e40af;
-          transform: translateX(4px);
-        }
-
-        .footer-section p {
-          color: #64748b;
-          line-height: 1.7;
-        }
-
-        .copyright {
-          text-align: center;
-          border-top: 1px solid #E5E7EB;
-          padding-top: 1rem;
-color: #9CA3AF;
         }
 
         /* Responsive Design */
@@ -1610,48 +2211,36 @@ color: #9CA3AF;
             display: none;
           }
 
-          .hero-content {
-            grid-template-columns: 1fr;
-            text-align: center;
-          }
-
           .hero-text h1 {
-            font-size: 2.5rem;
+            font-size: 4rem;
           }
 
-          .hero-buttons {
-            justify-content: center;
+          .hero-subheadline {
+            font-size: 1.15rem;
           }
 
-          .timeline-container {
-            grid-template-columns: 1fr;
-            gap: 4rem;
+          .hero-social-proof {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 1rem;
           }
 
-          .timeline-divider {
+          .hero-social-proof .divider {
             display: none;
           }
 
-          .problem-solution::before {
-            display: none;
+          .hero-store-badges .store-badge img {
+            height: 50px;
           }
 
-          .before-section {
-            padding-bottom: 2rem;
-            border-bottom: 2px solid rgba(30, 64, 175, 0.1);
+          .hero-store-badges .store-badge:last-child img {
+            height: 70px;
+            margin: -10px 0;
           }
 
           .features-grid {
             grid-template-columns: 1fr;
-          }
-
-          .phone {
-            width: 250px;
-            height: 500px;
-          }
-
-          .alarm-time {
-            font-size: 2rem;
           }
 
           .download-buttons {
@@ -1661,6 +2250,12 @@ color: #9CA3AF;
 
           .email-form {
             flex-direction: column;
+          }
+
+          .copyright {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
           }
         }
 
