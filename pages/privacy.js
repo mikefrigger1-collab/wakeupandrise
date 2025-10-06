@@ -7,6 +7,7 @@ export default function Privacy() {
       <Head>
         <title>Privacy Policy - Wake Up & Rise</title>
         <meta name="description" content="Privacy Policy for Wake Up & Rise - Smart Alarm Clock App" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
       </Head>
 
       <div className="app-wrapper">
@@ -17,7 +18,7 @@ export default function Privacy() {
               <div className="logo">
                 <Link href="/">Wake Up & Rise</Link>
               </div>
-<Link href="/" className="download-nav-btn">Back to Home</Link>
+              <Link href="/" className="download-nav-btn">Back to Home</Link>
             </div>
           </div>
         </nav>
@@ -84,10 +85,6 @@ export default function Privacy() {
       </div>
 
       <style jsx global>{`
-        .app-wrapper {
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
         * {
           margin: 0;
           padding: 0;
@@ -95,9 +92,12 @@ export default function Privacy() {
         }
 
         body {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
           line-height: 1.6;
-          color: #374151;
+          color: #1e293b;
           background: #ffffff;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
@@ -112,88 +112,111 @@ export default function Privacy() {
           top: 0;
           width: 100%;
           z-index: 1000;
-          background: rgba(255, 255, 255, 0.95);
-          backdrop-filter: blur(10px);
-          border-bottom: 1px solid #E0E7FF;
-          transition: all 0.3s ease;
+          background: rgba(255, 255, 255, 0.8);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+          border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .nav-container {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 1rem 0;
+          padding: 1.25rem 0;
         }
 
         .logo {
           font-size: 1.5rem;
-          font-weight: bold;
-          color: #1E3A8A;
+          font-weight: 700;
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          letter-spacing: -0.02em;
         }
 
         .logo a {
-          color: inherit;
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
           text-decoration: none;
         }
 
         .download-nav-btn {
-          background: #1E3A8A;
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
           color: white;
-          padding: 0.5rem 1.5rem;
-          border-radius: 6px;
+          padding: 0.625rem 1.75rem;
+          border-radius: 100px;
           text-decoration: none;
           font-weight: 600;
-          transition: background 0.3s ease;
+          font-size: 0.95rem;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 4px 15px rgba(30, 64, 175, 0.1);
         }
 
         .download-nav-btn:hover {
-          background: #3B82F6;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(30, 64, 175, 0.4);
         }
 
         /* Legal Page Styles */
         .legal-page {
           padding: 8rem 0 4rem;
           min-height: 100vh;
+          background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
         }
 
         .legal-content {
-          max-width: 800px;
+          max-width: 900px;
           margin: 0 auto;
           background: white;
-          padding: 3rem;
-          border-radius: 12px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-          border: 1px solid #E5E7EB;
+          padding: 3.5rem;
+          border-radius: 24px;
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+          border: 1px solid rgba(226, 232, 240, 0.8);
         }
 
         .legal-content h1 {
-          font-size: 2.5rem;
-          font-weight: bold;
-          color: #1E3A8A;
+          font-size: 3rem;
+          font-weight: 800;
           margin-bottom: 0.5rem;
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          letter-spacing: -0.02em;
         }
 
         .last-updated {
-          color: #6B7280;
-          font-size: 0.9rem;
-          margin-bottom: 2rem;
+          color: #64748b;
+          font-size: 0.95rem;
+          margin-bottom: 3rem;
           font-style: italic;
         }
 
         .legal-section {
-          margin-bottom: 2rem;
+          margin-bottom: 2.5rem;
+        }
+
+        .legal-section:last-child {
+          margin-bottom: 0;
         }
 
         .legal-section h2 {
-          font-size: 1.5rem;
-          font-weight: bold;
-          color: #1E3A8A;
+          font-size: 1.75rem;
+          font-weight: 700;
+          color: #1e293b;
           margin-bottom: 1rem;
+          letter-spacing: -0.01em;
         }
 
         .legal-section p {
           margin-bottom: 1rem;
-          line-height: 1.6;
+          line-height: 1.7;
+          color: #64748b;
+          font-size: 1.05rem;
         }
 
         .legal-section ul {
@@ -202,27 +225,41 @@ export default function Privacy() {
         }
 
         .legal-section li {
-          margin-bottom: 0.5rem;
-          line-height: 1.6;
+          margin-bottom: 0.75rem;
+          line-height: 1.7;
+          color: #64748b;
+          font-size: 1.05rem;
+        }
+
+        .legal-section strong {
+          color: #1e293b;
+          font-weight: 600;
         }
 
         .legal-section a {
-          color: #1E3A8A;
+          color: #1e40af;
           text-decoration: none;
+          font-weight: 600;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .legal-section a:hover {
+          color: #1e3a8a;
           text-decoration: underline;
         }
 
         @media (max-width: 768px) {
           .legal-content {
             margin: 0 20px;
-            padding: 2rem;
+            padding: 2.5rem 2rem;
           }
 
           .legal-content h1 {
-            font-size: 2rem;
+            font-size: 2.5rem;
+          }
+
+          .legal-section h2 {
+            font-size: 1.5rem;
           }
         }
       `}</style>

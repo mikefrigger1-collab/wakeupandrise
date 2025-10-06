@@ -57,6 +57,7 @@ export default function FAQ() {
       <Head>
         <title>FAQ - Wake Up & Rise</title>
         <meta name="description" content="Frequently Asked Questions for Wake Up & Rise - Smart Alarm Clock App" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
       </Head>
 
       <div className="app-wrapper">
@@ -82,7 +83,7 @@ export default function FAQ() {
               <div className="faq-list">
                 {faqs.map((faq, index) => (
                   <div key={index} className="faq-item">
-                    <button 
+                    <button
                       className="faq-question"
                       onClick={() => toggleQuestion(index)}
                       aria-expanded={openQuestion === index}
@@ -112,10 +113,6 @@ export default function FAQ() {
       </div>
 
       <style jsx global>{`
-        .app-wrapper {
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
         * {
           margin: 0;
           padding: 0;
@@ -123,9 +120,12 @@ export default function FAQ() {
         }
 
         body {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
           line-height: 1.6;
-          color: #374151;
+          color: #1e293b;
           background: #ffffff;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
@@ -140,107 +140,133 @@ export default function FAQ() {
           top: 0;
           width: 100%;
           z-index: 1000;
-          background: rgba(255, 255, 255, 0.95);
-          backdrop-filter: blur(10px);
-          border-bottom: 1px solid #E0E7FF;
-          transition: all 0.3s ease;
+          background: rgba(255, 255, 255, 0.8);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+          border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .nav-container {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 1rem 0;
+          padding: 1.25rem 0;
         }
 
         .logo {
           font-size: 1.5rem;
-          font-weight: bold;
-          color: #1E3A8A;
+          font-weight: 700;
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          letter-spacing: -0.02em;
         }
 
         .logo a {
-          color: inherit;
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
           text-decoration: none;
         }
 
         .download-nav-btn {
-          background: #1E3A8A;
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
           color: white;
-          padding: 0.5rem 1.5rem;
-          border-radius: 6px;
+          padding: 0.625rem 1.75rem;
+          border-radius: 100px;
           text-decoration: none;
           font-weight: 600;
-          transition: background 0.3s ease;
+          font-size: 0.95rem;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 4px 15px rgba(30, 64, 175, 0.1);
         }
 
         .download-nav-btn:hover {
-          background: #3B82F6;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(30, 64, 175, 0.4);
         }
 
         /* FAQ Page Styles */
         .faq-page {
           padding: 8rem 0 4rem;
           min-height: 100vh;
+          background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
         }
 
         .faq-content {
-          max-width: 800px;
+          max-width: 900px;
           margin: 0 auto;
         }
 
         .faq-content h1 {
-          font-size: 2.5rem;
-          font-weight: bold;
-          color: #1E3A8A;
+          font-size: 3rem;
+          font-weight: 800;
           margin-bottom: 1rem;
           text-align: center;
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          letter-spacing: -0.02em;
         }
 
         .faq-intro {
           text-align: center;
-          color: #6B7280;
-          font-size: 1.2rem;
-          margin-bottom: 3rem;
+          font-size: 1.25rem;
+          color: #64748b;
+          margin-bottom: 4rem;
+          font-weight: 400;
         }
 
         .faq-list {
-          margin-bottom: 3rem;
+          margin-bottom: 4rem;
         }
 
         .faq-item {
           background: white;
-          border-radius: 12px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-          border: 1px solid #E5E7EB;
+          border-radius: 16px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+          border: 1px solid rgba(226, 232, 240, 0.8);
           margin-bottom: 1rem;
           overflow: hidden;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .faq-item:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
         }
 
         .faq-question {
           width: 100%;
-          padding: 1.5rem;
+          padding: 1.75rem 2rem;
           background: none;
           border: none;
           text-align: left;
           font-size: 1.1rem;
           font-weight: 600;
-          color: #1E3A8A;
+          color: #1e293b;
           cursor: pointer;
           display: flex;
           justify-content: space-between;
           align-items: center;
-          transition: background 0.3s ease;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          font-family: 'Inter', sans-serif;
         }
 
         .faq-question:hover {
-          background: #F9FAFB;
+          background: rgba(30, 64, 175, 0.02);
         }
 
         .faq-icon {
-          font-size: 1.5rem;
-          font-weight: bold;
-          transition: transform 0.3s ease;
+          font-size: 1.75rem;
+          font-weight: 300;
+          color: #1e40af;
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          line-height: 1;
         }
 
         .faq-icon.open {
@@ -250,54 +276,61 @@ export default function FAQ() {
         .faq-answer {
           max-height: 0;
           overflow: hidden;
-          transition: max-height 0.3s ease;
-          background: #F9FAFB;
+          transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .faq-answer.open {
-          max-height: 200px;
+          max-height: 300px;
         }
 
         .faq-answer p {
-          padding: 1.5rem;
-          line-height: 1.6;
-          color: #6B7280;
+          padding: 0 2rem 1.75rem 2rem;
+          line-height: 1.7;
+          color: #64748b;
+          font-size: 1.05rem;
         }
 
         .contact-section {
           text-align: center;
           background: white;
           padding: 3rem;
-          border-radius: 12px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-          border: 1px solid #E5E7EB;
+          border-radius: 24px;
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+          border: 1px solid rgba(226, 232, 240, 0.8);
         }
 
         .contact-section h2 {
-          font-size: 1.8rem;
-          font-weight: bold;
-          color: #1E3A8A;
+          font-size: 2rem;
+          font-weight: 700;
           margin-bottom: 1rem;
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
         }
 
         .contact-section p {
-          color: #6B7280;
+          color: #64748b;
           margin-bottom: 2rem;
+          font-size: 1.1rem;
         }
 
         .contact-btn {
-          background: #1E3A8A;
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
           color: white;
-          padding: 1rem 2rem;
-          border-radius: 6px;
+          padding: 1rem 2.25rem;
+          border-radius: 100px;
           text-decoration: none;
           font-weight: 600;
+          font-size: 1.05rem;
           display: inline-block;
-          transition: background 0.3s ease;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 10px 30px rgba(30, 64, 175, 0.2);
         }
 
         .contact-btn:hover {
-          background: #3B82F6;
+          transform: translateY(-2px);
+          box-shadow: 0 15px 40px rgba(30, 64, 175, 0.4);
         }
 
         @media (max-width: 768px) {
@@ -306,7 +339,15 @@ export default function FAQ() {
           }
 
           .faq-content h1 {
-            font-size: 2rem;
+            font-size: 2.5rem;
+          }
+
+          .faq-question {
+            padding: 1.5rem;
+          }
+
+          .faq-answer p {
+            padding: 1.5rem 1.5rem 1.5rem 1.5rem;
           }
 
           .contact-section {
