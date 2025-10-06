@@ -140,7 +140,7 @@ export default function Home() {
           <div className="hero-content">
             <div className="hero-text">
               <h1>Wake up better.</h1>
-              <p className="hero-subheadline">The alarm that's a pleasure, not a pain. Wake up better, every day.</p>
+              <p className="hero-subheadline">The alarm that&rsquo;s a pleasure, not a pain. Wake up better, every day.</p>
               <div className="hero-social-proof">
                 <div className="rating">
                   <span className="stars">★★★★★</span>
