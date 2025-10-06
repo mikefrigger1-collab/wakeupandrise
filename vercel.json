@@ -1,12 +1,5 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
-  "framework": "nextjs",
-  "redirects": [
-    {
-      "source": "https://wakeupandriseapp.com/(.*)",
-      "destination": "https://www.wakeupandriseapp.com/$1",
-      "permanent": true
-    }
-  ]
+  "framework": "nextjs"
 }
