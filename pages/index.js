@@ -180,18 +180,28 @@ export default function Home() {
                           <div className="comparison-notch"></div>
                           <div className="comparison-screen before-screen">
                             <div className="alarm-ui harsh">
-                              <div className="alarm-icon harsh-icon">⚠️</div>
-                              <div className="alarm-time-display harsh-time">7:00</div>
-                              <div className="alarm-label harsh-label">ALARM</div>
-                              <div className="volume-indicator harsh-volume">
-                                <div className="volume-bar full"></div>
-                                <div className="volume-bar full"></div>
-                                <div className="volume-bar full"></div>
-                                <div className="volume-bar full"></div>
-                                <div className="volume-bar full"></div>
+                              <div className="status-bar">
+                                <span className="time-text">7:00 AM</span>
+                                <div className="status-icons">
+                                  <span>📶</span>
+                                  <span>🔋</span>
+                                </div>
                               </div>
-                              <div className="alarm-actions">
-                                <button className="alarm-btn harsh-btn">STOP</button>
+                              <div className="alarm-content-center">
+                                <div className="alarm-icon-large harsh-icon">🔔</div>
+                                <div className="alarm-time-large harsh-time">7:00</div>
+                                <div className="alarm-label-caps harsh-label">ALARM</div>
+                                <div className="volume-bars-container">
+                                  <div className="volume-bar-item maxed"></div>
+                                  <div className="volume-bar-item maxed"></div>
+                                  <div className="volume-bar-item maxed"></div>
+                                  <div className="volume-bar-item maxed"></div>
+                                  <div className="volume-bar-item maxed"></div>
+                                </div>
+                              </div>
+                              <div className="alarm-bottom-actions">
+                                <button className="alarm-stop-btn harsh-btn">STOP</button>
+                                <button className="alarm-snooze-text">Snooze</button>
                               </div>
                             </div>
                           </div>
@@ -208,18 +218,47 @@ export default function Home() {
                           <div className="comparison-notch"></div>
                           <div className="comparison-screen after-screen">
                             <div className="alarm-ui gentle">
-                              <div className="alarm-icon gentle-icon">☀️</div>
-                              <div className="alarm-time-display gentle-time">7:00</div>
-                              <div className="alarm-label gentle-label">Good Morning</div>
-                              <div className="volume-indicator gentle-volume">
-                                <div className="volume-bar filled"></div>
-                                <div className="volume-bar filled"></div>
-                                <div className="volume-bar partial"></div>
-                                <div className="volume-bar"></div>
-                                <div className="volume-bar"></div>
+                              <div className="status-bar gentle-status">
+                                <span className="time-text">7:00 AM</span>
+                                <div className="status-icons">
+                                  <span>📶</span>
+                                  <span>🔋</span>
+                                </div>
                               </div>
-                              <div className="alarm-actions">
-                                <button className="alarm-btn gentle-btn">Dismiss</button>
+                              <div className="alarm-content-center">
+                                <div className="weather-widget">
+                                  <span className="weather-icon">☀️</span>
+                                  <span className="weather-temp">72°F</span>
+                                </div>
+                                <div className="alarm-time-large gentle-time">7:00</div>
+                                <div className="alarm-label-soft gentle-label">Good Morning, Alex</div>
+                                <div className="alarm-subtitle">Playing: Morning Meditation Mix</div>
+
+                                <div className="volume-progress-modern">
+                                  <div className="progress-track">
+                                    <div className="progress-fill-gentle"></div>
+                                  </div>
+                                  <div className="volume-text">Gradually increasing to 100%</div>
+                                </div>
+
+                                <div className="quick-actions">
+                                  <div className="quick-action-item">
+                                    <span className="action-icon">☕</span>
+                                    <span className="action-label">Coffee</span>
+                                  </div>
+                                  <div className="quick-action-item">
+                                    <span className="action-icon">🧘</span>
+                                    <span className="action-label">Meditate</span>
+                                  </div>
+                                  <div className="quick-action-item">
+                                    <span className="action-icon">📰</span>
+                                    <span className="action-label">News</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="alarm-bottom-actions">
+                                <button className="alarm-dismiss-btn gentle-btn">I'm Awake! ✨</button>
+                                <button className="alarm-snooze-text gentle-snooze">Snooze 10 min</button>
                               </div>
                             </div>
                           </div>
@@ -241,13 +280,20 @@ export default function Home() {
                           <div className="comparison-notch"></div>
                           <div className="comparison-screen before-screen">
                             <div className="routine-ui basic">
-                              <div className="routine-header harsh-text">Morning Checklist</div>
-                              <div className="routine-list">
-                                <div className="routine-item">☐ Wake up</div>
-                                <div className="routine-item">☐ Shower</div>
-                                <div className="routine-item">☐ Breakfast</div>
-                                <div className="routine-item">☐ Get dressed</div>
-                                <div className="routine-item">☐ Leave house</div>
+                              <div className="status-bar">
+                                <span className="time-text">7:05 AM</span>
+                                <div className="status-icons">
+                                  <span>📶</span>
+                                  <span>🔋</span>
+                                </div>
+                              </div>
+                              <div className="routine-header">Morning TODO</div>
+                              <div className="routine-list-basic">
+                                <div className="routine-item-basic">☐ Wake up</div>
+                                <div className="routine-item-basic">☐ Shower</div>
+                                <div className="routine-item-basic">☐ Breakfast</div>
+                                <div className="routine-item-basic">☐ Get dressed</div>
+                                <div className="routine-item-basic">☐ Leave house</div>
                               </div>
                             </div>
                           </div>
@@ -264,17 +310,51 @@ export default function Home() {
                           <div className="comparison-notch"></div>
                           <div className="comparison-screen after-screen">
                             <div className="routine-ui guided">
-                              <div className="routine-header gentle-text">Morning Routine</div>
-                              <div className="routine-progress">
-                                <div className="progress-bar">
-                                  <div className="progress-fill"></div>
+                              <div className="status-bar gentle-status">
+                                <span className="time-text">7:05 AM</span>
+                                <div className="status-icons">
+                                  <span>📶</span>
+                                  <span>🔋</span>
                                 </div>
-                                <div className="progress-text">Step 2 of 5</div>
                               </div>
-                              <div className="routine-current">
-                                <div className="routine-icon">🧘</div>
-                                <div className="routine-name">5-Min Meditation</div>
-                                <div className="routine-timer">2:30 remaining</div>
+                              <div className="routine-header-modern">Morning Flow</div>
+                              <div className="routine-progress-modern">
+                                <div className="progress-bar-modern">
+                                  <div className="progress-fill-modern"></div>
+                                </div>
+                                <div className="routine-stats">
+                                  <span className="progress-text-modern">Step 2 of 5</span>
+                                  <span className="streak-indicator">🔥 12 day streak</span>
+                                </div>
+                              </div>
+                              <div className="routine-current-card">
+                                <div className="routine-badge">Mindfulness</div>
+                                <div className="routine-icon-large">🧘</div>
+                                <div className="routine-name-large">Guided Meditation</div>
+                                <div className="routine-description">Focus on your breathing</div>
+                                <div className="routine-timer-display">
+                                  <div className="timer-circle-modern">
+                                    <svg className="timer-ring" viewBox="0 0 120 120">
+                                      <circle cx="60" cy="60" r="54" className="timer-ring-bg"/>
+                                      <circle cx="60" cy="60" r="54" className="timer-ring-progress"/>
+                                    </svg>
+                                    <span className="timer-text">2:30</span>
+                                  </div>
+                                  <div className="timer-label">of 5:00 remaining</div>
+                                </div>
+                                <div className="routine-audio-playing">
+                                  <div className="audio-wave">
+                                    <span className="wave-bar"></span>
+                                    <span className="wave-bar"></span>
+                                    <span className="wave-bar"></span>
+                                    <span className="wave-bar"></span>
+                                  </div>
+                                  <span className="audio-title">Peaceful Morning Sounds</span>
+                                </div>
+                              </div>
+                              <div className="routine-actions">
+                                <button className="routine-skip-btn">Skip</button>
+                                <button className="routine-next-btn">Complete ✓</button>
                               </div>
                             </div>
                           </div>
@@ -296,13 +376,20 @@ export default function Home() {
                           <div className="comparison-notch"></div>
                           <div className="comparison-screen before-screen">
                             <div className="audio-ui basic">
-                              <div className="audio-header harsh-text">Select Sound</div>
-                              <div className="audio-list">
-                                <div className="audio-option">🔔 Default 1</div>
-                                <div className="audio-option">🔔 Default 2</div>
-                                <div className="audio-option">🔔 Default 3</div>
-                                <div className="audio-option">🔔 Default 4</div>
-                                <div className="audio-option">🔔 Default 5</div>
+                              <div className="status-bar">
+                                <span className="time-text">6:55 PM</span>
+                                <div className="status-icons">
+                                  <span>📶</span>
+                                  <span>🔋</span>
+                                </div>
+                              </div>
+                              <div className="audio-header-basic">Select Sound</div>
+                              <div className="audio-list-basic">
+                                <div className="audio-option-basic">🔔 Default 1</div>
+                                <div className="audio-option-basic">🔔 Default 2</div>
+                                <div className="audio-option-basic">🔔 Default 3</div>
+                                <div className="audio-option-basic">🔔 Default 4</div>
+                                <div className="audio-option-basic">🔔 Default 5</div>
                               </div>
                             </div>
                           </div>
@@ -319,22 +406,63 @@ export default function Home() {
                           <div className="comparison-notch"></div>
                           <div className="comparison-screen after-screen">
                             <div className="audio-ui custom">
-                              <div className="audio-header gentle-text">Your Audio</div>
-                              <div className="audio-categories">
-                                <div className="audio-category">
-                                  <div className="category-icon">🎵</div>
-                                  <div className="category-name">Music</div>
-                                </div>
-                                <div className="audio-category">
-                                  <div className="category-icon">🎧</div>
-                                  <div className="category-name">DJ Mixes</div>
-                                </div>
-                                <div className="audio-category">
-                                  <div className="category-icon">🎸</div>
-                                  <div className="category-name">Band Sets</div>
+                              <div className="status-bar gentle-status">
+                                <span className="time-text">6:55 PM</span>
+                                <div className="status-icons">
+                                  <span>📶</span>
+                                  <span>🔋</span>
                                 </div>
                               </div>
-                              <button className="import-btn">+ Import Audio</button>
+                              <div className="audio-header-modern">Your Audio</div>
+                              <div className="audio-grid-modern">
+                                <div className="audio-card-modern featured">
+                                  <div className="card-icon-large">🎵</div>
+                                  <div className="card-title">Sunrise Sessions</div>
+                                  <div className="card-meta">
+                                    <span className="card-count">24 tracks</span>
+                                    <span className="card-duration">2.5 hrs</span>
+                                  </div>
+                                  <div className="card-preview">
+                                    <div className="preview-waveform">
+                                      <span className="waveform-bar"></span>
+                                      <span className="waveform-bar"></span>
+                                      <span className="waveform-bar"></span>
+                                      <span className="waveform-bar"></span>
+                                      <span className="waveform-bar"></span>
+                                      <span className="waveform-bar"></span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="audio-card-modern">
+                                  <div className="card-icon-large">🎧</div>
+                                  <div className="card-title">DJ Mixes</div>
+                                  <div className="card-meta">
+                                    <span className="card-count">8 mixes</span>
+                                    <span className="card-duration">12 hrs</span>
+                                  </div>
+                                  <div className="card-tags">
+                                    <span className="tag">Electronic</span>
+                                    <span className="tag">Chill</span>
+                                  </div>
+                                </div>
+                                <div className="audio-card-modern">
+                                  <div className="card-icon-large">🎸</div>
+                                  <div className="card-title">Live Sets</div>
+                                  <div className="card-meta">
+                                    <span className="card-count">12 sets</span>
+                                    <span className="card-duration">8 hrs</span>
+                                  </div>
+                                  <div className="card-tags">
+                                    <span className="tag">Rock</span>
+                                    <span className="tag">Indie</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="audio-actions">
+                                <button className="import-btn-modern">
+                                  + Import Audio
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -748,7 +876,7 @@ export default function Home() {
           align-items: center;
           justify-content: center;
           gap: 2rem;
-          margin: 3rem auto 0;
+          margin: 0rem auto 0;
         }
 
         .carousel-arrow {
@@ -923,181 +1051,385 @@ export default function Home() {
         .comparison-screen {
           aspect-ratio: 9 / 19.5;
           border-radius: 36px;
-          overflow: hidden;
+          overflow-y: scroll;
+          overflow-x: hidden;
           position: relative;
+          scroll-behavior: smooth;
+        }
+
+        .comparison-screen::-webkit-scrollbar {
+          width: 3px;
+        }
+
+        .comparison-screen::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .comparison-screen::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.3);
+          border-radius: 10px;
+        }
+
+        .comparison-screen::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.5);
         }
 
         .before-screen {
-          background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+          background: #dc2626;
         }
 
         .after-screen {
-          background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+          background: #60a5fa;
         }
 
+        /* Status Bar */
+        .status-bar {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 1.25rem;
+          font-size: 0.875rem;
+          font-weight: 500;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          z-index: 10;
+        }
+
+        .status-bar .time-text {
+          color: #ffffff;
+          font-weight: 600;
+        }
+
+        .status-bar .status-icons {
+          display: flex;
+          gap: 0.5rem;
+          font-size: 0.875rem;
+        }
+
+        .status-bar.gentle-status .time-text {
+          color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Alarm UI */
         .alarm-ui {
-          height: 100%;
+          min-height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 0;
+          position: relative;
+        }
+
+        .alarm-ui.harsh {
+          background: #dc2626;
+          min-height: 100%;
+        }
+
+        .alarm-ui.gentle {
+          background: #60a5fa;
+          min-height: 100%;
+        }
+
+        .alarm-content-center {
+          flex: 1;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: 2rem 1.5rem;
-          gap: 1.5rem;
+          padding: 1rem 1rem;
+          margin-top: 44px;
         }
 
-        .alarm-icon {
-          font-size: 4rem;
-          animation: pulse-icon 2s ease-in-out infinite;
+        .alarm-icon-large {
+          font-size: 3rem;
+          margin-bottom: 0.75rem;
+          filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
         }
 
         .harsh-icon {
-          filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5));
+          opacity: 1;
+          animation: shake-harsh 0.5s ease-in-out infinite;
+        }
+
+        @keyframes shake-harsh {
+          0%, 100% { transform: rotate(-3deg); }
+          50% { transform: rotate(3deg); }
         }
 
         .gentle-icon {
-          filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.5));
+          opacity: 1;
+          animation: gentle-glow 2s ease-in-out infinite;
         }
 
-        @keyframes pulse-icon {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.1); }
+        @keyframes gentle-glow {
+          0%, 100% { transform: scale(1); opacity: 0.95; }
+          50% { transform: scale(1.05); opacity: 1; }
         }
 
-        .alarm-time-display {
+        .alarm-time-large {
           font-size: 3.5rem;
-          font-weight: 800;
-          letter-spacing: -0.02em;
+          font-weight: 200;
+          letter-spacing: -0.04em;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+          line-height: 1;
+          margin-bottom: 0.25rem;
         }
 
         .harsh-time {
           color: #ffffff;
-          text-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
         }
 
         .gentle-time {
-          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          color: #ffffff;
         }
 
-        .alarm-label {
-          font-size: 1.2rem;
-          font-weight: 600;
+        .alarm-label-caps {
+          font-size: 0.9rem;
+          font-weight: 700;
+          letter-spacing: 0.15em;
           text-transform: uppercase;
-          letter-spacing: 0.1em;
+          margin-bottom: 1rem;
+        }
+
+        .alarm-label-soft {
+          font-size: 1.1rem;
+          font-weight: 500;
+          letter-spacing: -0.01em;
+          margin-bottom: 0.5rem;
         }
 
         .harsh-label {
-          color: #ffffff;
-          animation: blink 1s step-start infinite;
-        }
-
-        @keyframes blink {
-          50% { opacity: 0.5; }
+          color: rgba(255, 255, 255, 0.95);
+          text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .gentle-label {
-          color: #64748b;
+          color: rgba(255, 255, 255, 0.9);
         }
 
-        .volume-indicator {
+        .volume-bars-container {
           display: flex;
           gap: 0.5rem;
           align-items: flex-end;
           height: 60px;
         }
 
-        .volume-bar {
-          width: 12px;
+        .volume-bar-item {
+          width: 10px;
           background: rgba(255, 255, 255, 0.2);
-          border-radius: 6px;
+          border-radius: 5px;
           transition: all 0.3s ease;
         }
 
-        .volume-bar:nth-child(1) { height: 20%; }
-        .volume-bar:nth-child(2) { height: 40%; }
-        .volume-bar:nth-child(3) { height: 60%; }
-        .volume-bar:nth-child(4) { height: 80%; }
-        .volume-bar:nth-child(5) { height: 100%; }
+        .volume-bar-item:nth-child(1) { height: 20%; }
+        .volume-bar-item:nth-child(2) { height: 40%; }
+        .volume-bar-item:nth-child(3) { height: 60%; }
+        .volume-bar-item:nth-child(4) { height: 80%; }
+        .volume-bar-item:nth-child(5) { height: 100%; }
 
-        .harsh-volume .volume-bar.full {
-          background: #ffffff;
-          box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
-          animation: shake 0.5s ease-in-out infinite;
+        .volume-bar-item.maxed {
+          background: rgba(254, 226, 226, 0.95);
+          box-shadow: 0 2px 12px rgba(254, 226, 226, 0.6);
+          animation: pulse-bars 0.6s ease-in-out infinite alternate;
         }
 
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          25% { transform: translateX(-2px); }
-          75% { transform: translateX(2px); }
+        @keyframes pulse-bars {
+          0% { opacity: 0.8; }
+          100% { opacity: 1; }
         }
 
-        .gentle-volume .volume-bar.filled {
-          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+        .volume-progress-modern {
+          width: 100%;
+          max-width: 200px;
         }
 
-        .gentle-volume .volume-bar.partial {
-          background: linear-gradient(135deg, #1e40af 0%, rgba(30, 64, 175, 0.3) 100%);
-        }
-
-        .alarm-actions {
-          margin-top: 1rem;
-        }
-
-        .alarm-btn {
-          padding: 1rem 3rem;
-          border: none;
+        .progress-track {
+          width: 100%;
+          height: 4px;
+          background: rgba(255, 255, 255, 0.2);
           border-radius: 100px;
+          overflow: hidden;
+          margin-bottom: 0.5rem;
+        }
+
+        .progress-fill-gentle {
+          width: 40%;
+          height: 100%;
+          background: rgba(255, 255, 255, 0.9);
+          border-radius: 100px;
+          transition: width 0.3s ease;
+        }
+
+        .volume-text {
+          font-size: 0.7rem;
+          color: rgba(255, 255, 255, 0.8);
+          text-align: center;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+        }
+
+        /* New Alarm UI Features */
+        .weather-widget {
+          display: flex;
+          align-items: center;
+          gap: 0.375rem;
+          background: rgba(255, 255, 255, 0.15);
+          padding: 0.375rem 0.75rem;
+          border-radius: 16px;
+          margin-bottom: 0.75rem;
+          backdrop-filter: blur(10px);
+        }
+
+        .weather-icon {
           font-size: 1.1rem;
+        }
+
+        .weather-temp {
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: rgba(255, 255, 255, 0.95);
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+        }
+
+        .alarm-subtitle {
+          font-size: 0.75rem;
+          color: rgba(255, 255, 255, 0.75);
+          margin-bottom: 0.75rem;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+        }
+
+        .volume-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.375rem;
+        }
+
+        .volume-icon {
+          font-size: 0.85rem;
+        }
+
+        .volume-percentage {
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: rgba(255, 255, 255, 0.9);
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+        }
+
+        .quick-actions {
+          display: flex;
+          gap: 0.5rem;
+          margin-top: 0.75rem;
+          justify-content: center;
+        }
+
+        .quick-action-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.25rem;
+          background: rgba(255, 255, 255, 0.15);
+          padding: 0.5rem 0.625rem;
+          border-radius: 10px;
+          backdrop-filter: blur(10px);
+          transition: all 0.2s ease;
+          cursor: pointer;
+        }
+
+        .quick-action-item:hover {
+          background: rgba(255, 255, 255, 0.25);
+          transform: translateY(-2px);
+        }
+
+        .action-icon {
+          font-size: 1.25rem;
+        }
+
+        .action-label {
+          font-size: 0.6rem;
+          color: rgba(255, 255, 255, 0.85);
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-weight: 500;
+        }
+
+        .alarm-bottom-actions {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          padding: 1rem;
+          padding-bottom: 1.5rem;
+        }
+
+        .alarm-stop-btn,
+        .alarm-dismiss-btn {
+          width: 100%;
+          padding: 0.875rem;
+          border: none;
+          border-radius: 12px;
+          font-size: 0.95rem;
           font-weight: 600;
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: all 0.2s ease;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         }
 
-        .harsh-btn {
-          background: #ffffff;
-          color: #dc2626;
-          box-shadow: 0 4px 20px rgba(255, 0, 0, 0.3);
+        .alarm-stop-btn {
+          background: rgba(255, 255, 255, 0.15);
+          color: #ffffff;
+          backdrop-filter: blur(10px);
         }
 
-        .harsh-btn:hover {
-          transform: scale(1.05);
+        .alarm-dismiss-btn {
+          background: rgba(255, 255, 255, 0.95);
+          color: #3b82f6;
         }
 
-        .gentle-btn {
-          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
-          color: white;
-          box-shadow: 0 4px 20px rgba(30, 64, 175, 0.3);
+        .alarm-snooze-text {
+          width: 100%;
+          padding: 0.625rem;
+          background: transparent;
+          color: rgba(255, 255, 255, 0.7);
+          border: none;
+          font-size: 0.85rem;
+          font-weight: 500;
+          cursor: pointer;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         }
 
-        .gentle-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 30px rgba(30, 64, 175, 0.4);
+        .gentle-snooze {
+          color: rgba(255, 255, 255, 0.85);
         }
 
         /* Routine UI Styles */
         .routine-ui {
-          height: 100%;
+          min-height: 100%;
           display: flex;
           flex-direction: column;
-          padding: 2rem 1.5rem;
-          gap: 1.5rem;
+          padding: 0;
+          position: relative;
         }
 
         .routine-ui.basic {
           justify-content: flex-start;
+          background: #dc2626;
+          min-height: 100%;
         }
 
         .routine-ui.guided {
-          justify-content: center;
+          justify-content: flex-start;
+          background: #60a5fa;
+          min-height: 100%;
         }
 
         .routine-header {
           font-size: 1.5rem;
           font-weight: 700;
-          text-align: center;
-          margin-bottom: 1rem;
+          text-align: left;
+          padding: 3.5rem 1rem 0.75rem;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
         }
 
         .harsh-text {
@@ -1105,171 +1437,510 @@ export default function Home() {
         }
 
         .gentle-text {
-          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          color: #ffffff;
         }
 
-        .routine-list {
+        .routine-list-basic {
           display: flex;
           flex-direction: column;
-          gap: 1rem;
+          gap: 0.625rem;
+          padding: 0 1.5rem;
         }
 
-        .routine-item {
-          font-size: 1.1rem;
+        .routine-item-basic {
+          font-size: 1.05rem;
+          color: rgba(255, 255, 255, 0.85);
+          padding: 1.125rem 1rem;
+          background: rgba(255, 255, 255, 0.08);
+          border-radius: 12px;
+          text-align: left;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-weight: 400;
+        }
+
+        .routine-header-modern {
+          font-size: 1.35rem;
+          font-weight: 700;
+          text-align: left;
+          padding: 1.5rem 1rem 0.75rem;
           color: #ffffff;
-          padding: 0.75rem;
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 8px;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
         }
 
-        .routine-progress {
-          margin-bottom: 2rem;
+        .routine-progress-modern {
+          padding: 0 1rem 0rem;
         }
 
-        .progress-bar {
+        .progress-bar-modern {
           width: 100%;
-          height: 8px;
-          background: rgba(30, 64, 175, 0.2);
+          height: 4px;
+          background: rgba(255, 255, 255, 0.25);
           border-radius: 100px;
           overflow: hidden;
           margin-bottom: 0.5rem;
         }
 
-        .progress-fill {
+        .progress-fill-modern {
           width: 40%;
           height: 100%;
-          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          background: rgba(255, 255, 255, 0.95);
           border-radius: 100px;
-          animation: progress-pulse 2s ease-in-out infinite;
+          transition: width 0.3s ease;
         }
 
-        @keyframes progress-pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.7; }
+        .progress-text-modern {
+          font-size: 0.7rem;
+          color: rgba(255, 255, 255, 0.75);
+          text-align: left;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-weight: 500;
         }
 
-        .progress-text {
-          font-size: 0.9rem;
-          color: #64748b;
+        .routine-current-card {
+          position: relative;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
           text-align: center;
+          padding: 1rem 1rem;
+          margin: 0 1rem 0.75rem;
+          background: rgba(255, 255, 255, 0.15);
+          border-radius: 20px;
+          backdrop-filter: blur(10px);
         }
 
-        .routine-current {
-          text-align: center;
-          padding: 2rem;
-          background: rgba(30, 64, 175, 0.05);
-          border-radius: 16px;
-          border: 2px solid rgba(30, 64, 175, 0.1);
-        }
-
-        .routine-icon {
-          font-size: 3rem;
-          margin-bottom: 1rem;
-        }
-
-        .routine-name {
-          font-size: 1.3rem;
-          font-weight: 700;
-          color: #1e293b;
+        .routine-icon-large {
+          font-size: 2.5rem;
           margin-bottom: 0.5rem;
+          filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
         }
 
-        .routine-timer {
-          font-size: 1rem;
-          color: #64748b;
+        .routine-name-large {
+          font-size: 1.15rem;
+          font-weight: 600;
+          color: #ffffff;
+          margin-bottom: 0.375rem;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+        }
+
+        .routine-timer-display {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.375rem;
+          margin-bottom: 0.75rem;
+        }
+
+        .timer-circle {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.2);
+          border: 3px solid rgba(255, 255, 255, 0.4);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .timer-text {
+          font-size: 1.5rem;
+          font-weight: 300;
+          color: #ffffff;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+          position: relative;
+          z-index: 10;
+        }
+
+        .timer-label {
+          font-size: 0.7rem;
+          color: rgba(255, 255, 255, 0.75);
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+        }
+
+        .routine-next-btn {
+          flex: 1;
+          padding: 0.75rem;
+          background: rgba(255, 255, 255, 0.95);
+          color: #3b82f6;
+          border: none;
+          border-radius: 12px;
+          font-size: 0.9rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+        }
+
+        /* New Routine UI Features */
+        .routine-stats {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .streak-indicator {
+          font-size: 0.7rem;
+          color: rgba(255, 255, 255, 0.85);
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-weight: 600;
+        }
+
+        .routine-badge {
+          position: absolute;
+          top: 0.5rem;
+          right: 0.5rem;
+          background: rgba(255, 255, 255, 0.25);
+          padding: 0.25rem 0.5rem;
+          border-radius: 12px;
+          font-size: 0.6rem;
+          color: rgba(255, 255, 255, 0.95);
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-weight: 600;
+          backdrop-filter: blur(10px);
+        }
+
+        .routine-description {
+          font-size: 0.75rem;
+          color: rgba(255, 255, 255, 0.75);
+          margin-bottom: 0.75rem;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+        }
+
+        .timer-circle-modern {
+          position: relative;
+          width: 80px;
+          height: 80px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .timer-ring {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          transform: rotate(-90deg);
+        }
+
+        .timer-ring-bg {
+          fill: none;
+          stroke: rgba(255, 255, 255, 0.2);
+          stroke-width: 4;
+        }
+
+        .timer-ring-progress {
+          fill: none;
+          stroke: rgba(255, 255, 255, 0.9);
+          stroke-width: 4;
+          stroke-dasharray: 339.292;
+          stroke-dashoffset: 135.717;
+          stroke-linecap: round;
+          transition: stroke-dashoffset 0.3s ease;
+        }
+
+        .routine-audio-playing {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          background: rgba(255, 255, 255, 0.1);
+          padding: 0.5rem 0.75rem;
+          border-radius: 10px;
+          margin-top: 0.5rem;
+        }
+
+        .audio-wave {
+          display: flex;
+          align-items: center;
+          gap: 0.2rem;
+          height: 16px;
+        }
+
+        .wave-bar {
+          width: 2px;
+          background: rgba(255, 255, 255, 0.8);
+          border-radius: 2px;
+          animation: wave-animation 1.2s ease-in-out infinite;
+        }
+
+        .wave-bar:nth-child(1) { height: 40%; animation-delay: 0s; }
+        .wave-bar:nth-child(2) { height: 70%; animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { height: 100%; animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { height: 60%; animation-delay: 0.3s; }
+
+        @keyframes wave-animation {
+          0%, 100% { transform: scaleY(0.5); }
+          50% { transform: scaleY(1); }
+        }
+
+        .audio-title {
+          font-size: 0.7rem;
+          color: rgba(255, 255, 255, 0.85);
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-weight: 500;
+        }
+
+        .routine-actions {
+          display: flex;
+          gap: 0.5rem;
+          padding: 0 1rem 1.25rem;
+        }
+
+        .routine-skip-btn {
+          flex: 0.4;
+          padding: 0.75rem;
+          background: transparent;
+          color: rgba(255, 255, 255, 0.8);
+          border: 1.5px solid rgba(255, 255, 255, 0.3);
+          border-radius: 12px;
+          font-size: 0.85rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+        }
+
+        .routine-skip-btn:hover {
+          background: rgba(255, 255, 255, 0.1);
         }
 
         /* Audio UI Styles */
         .audio-ui {
-          height: 100%;
+          min-height: 100%;
           display: flex;
           flex-direction: column;
-          padding: 2rem 1.5rem;
-          gap: 1.5rem;
+          padding: 0;
+          position: relative;
         }
 
         .audio-ui.basic {
           justify-content: flex-start;
+          background: #dc2626;
+          min-height: 100%;
         }
 
         .audio-ui.custom {
+          justify-content: flex-start;
+          background: #60a5fa;
+          min-height: 100%;
+        }
+
+        .audio-header-basic {
+          font-size: 2rem;
+          font-weight: 700;
+          text-align: left;
+          padding: 4.5rem 1.5rem 1.5rem;
+          color: #ffffff;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+        }
+
+        .audio-header-modern {
+          font-size: 1.35rem;
+          font-weight: 700;
+          text-align: left;
+          padding: 1.5rem 1rem 0.75rem;
+          color: #ffffff;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+        }
+
+        .audio-list-basic {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          padding: 0 1rem;
+        }
+
+        .audio-option-basic {
+          font-size: 0.85rem;
+          color: rgba(255, 255, 255, 0.85);
+          padding: 0.875rem 0.75rem;
+          background: rgba(255, 255, 255, 0.08);
+          border-radius: 10px;
+          text-align: left;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+        }
+
+        .audio-grid-modern {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 0.625rem;
+          padding: 0 1rem;
+          margin-bottom: 0.75rem;
+        }
+
+        .audio-card-modern {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 1rem 1rem;
+          background: rgba(255, 255, 255, 0.15);
+          border-radius: 16px;
+          text-align: center;
+          backdrop-filter: blur(10px);
+          transition: all 0.3s ease;
+        }
+
+        .audio-card-modern:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: translateY(-2px);
+        }
+
+        .card-icon-large {
+          font-size: 2rem;
+          margin-bottom: 0.5rem;
+          filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+        }
+
+        .card-title {
+          font-size: 0.95rem;
+          font-weight: 600;
+          color: #ffffff;
+          margin-bottom: 0.25rem;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+        }
+
+        .card-count {
+          font-size: 0.7rem;
+          color: rgba(255, 255, 255, 0.75);
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+        }
+
+        .audio-actions {
+          display: flex;
+          gap: 0.5rem;
+          padding: 0 1rem 1.25rem;
+        }
+
+        .import-btn-modern {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.375rem;
+          padding: 0.75rem;
+          background: rgba(255, 255, 255, 0.95);
+          color: #3b82f6;
+          border: none;
+          border-radius: 12px;
+          font-size: 0.9rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+        }
+
+        .import-btn-modern:hover {
+          background: rgba(255, 255, 255, 1);
+          transform: translateY(-1px);
+        }
+
+        .btn-icon {
+          font-size: 1rem;
+          line-height: 1;
+        }
+
+        /* New Audio UI Features */
+        .audio-search-bar {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          background: rgba(255, 255, 255, 0.15);
+          padding: 0.625rem 0.875rem;
+          border-radius: 10px;
+          margin: 0 1rem 0.75rem;
+          backdrop-filter: blur(10px);
+        }
+
+        .search-icon {
+          font-size: 0.85rem;
+          opacity: 0.7;
+        }
+
+        .search-placeholder {
+          font-size: 0.75rem;
+          color: rgba(255, 255, 255, 0.7);
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+        }
+
+        .audio-card-modern.featured {
+          background: rgba(255, 255, 255, 0.2);
+          border: 1.5px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .card-badge {
+          position: absolute;
+          top: 0.5rem;
+          right: 0.5rem;
+          background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(37, 99, 235, 0.9));
+          padding: 0.2rem 0.45rem;
+          border-radius: 8px;
+          font-size: 0.55rem;
+          color: white;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.025em;
+        }
+
+        .card-meta {
+          display: flex;
+          gap: 0.5rem;
+          font-size: 0.65rem;
+          color: rgba(255, 255, 255, 0.7);
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+        }
+
+        .card-duration {
+          font-weight: 500;
+        }
+
+        .card-preview {
+          width: 100%;
+          margin-top: 0.5rem;
+        }
+
+        .preview-waveform {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 0.2rem;
+          height: 20px;
+          padding: 0 0.25rem;
+        }
+
+        .waveform-bar {
+          flex: 1;
+          background: rgba(255, 255, 255, 0.4);
+          border-radius: 2px;
+          transition: all 0.3s ease;
+        }
+
+        .waveform-bar:nth-child(1) { height: 40%; }
+        .waveform-bar:nth-child(2) { height: 70%; }
+        .waveform-bar:nth-child(3) { height: 55%; }
+        .waveform-bar:nth-child(4) { height: 85%; }
+        .waveform-bar:nth-child(5) { height: 45%; }
+        .waveform-bar:nth-child(6) { height: 65%; }
+
+        .card-tags {
+          display: flex;
+          gap: 0.375rem;
+          margin-top: 0.5rem;
+          flex-wrap: wrap;
           justify-content: center;
         }
 
-        .audio-header {
-          font-size: 1.5rem;
-          font-weight: 700;
-          text-align: center;
-          margin-bottom: 1rem;
-        }
-
-        .audio-list {
-          display: flex;
-          flex-direction: column;
-          gap: 0.75rem;
-        }
-
-        .audio-option {
-          font-size: 1.1rem;
-          color: #ffffff;
-          padding: 0.75rem;
-          background: rgba(255, 255, 255, 0.1);
+        .tag {
+          background: rgba(255, 255, 255, 0.2);
+          padding: 0.2rem 0.5rem;
           border-radius: 8px;
-          text-align: center;
-        }
-
-        .audio-categories {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 1rem;
-          margin-bottom: 1.5rem;
-        }
-
-        .audio-category {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          padding: 1rem;
-          background: rgba(30, 64, 175, 0.05);
-          border: 2px solid rgba(30, 64, 175, 0.1);
-          border-radius: 12px;
-          transition: all 0.3s ease;
-        }
-
-        .audio-category:hover {
-          background: rgba(30, 64, 175, 0.1);
-          border-color: rgba(30, 64, 175, 0.2);
-        }
-
-        .category-icon {
-          font-size: 2rem;
-        }
-
-        .category-name {
-          font-size: 1.1rem;
-          font-weight: 600;
-          color: #1e293b;
-        }
-
-        .import-btn {
-          width: 100%;
-          padding: 1rem;
-          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
-          color: white;
-          border: none;
-          border-radius: 12px;
-          font-size: 1.1rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.3s ease;
-        }
-
-        .import-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 20px rgba(30, 64, 175, 0.3);
+          font-size: 0.6rem;
+          color: rgba(255, 255, 255, 0.85);
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-weight: 500;
         }
 
         .comparison-label {
@@ -1280,10 +1951,14 @@ export default function Home() {
 
         .before-label {
           color: #dc2626;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
 
         .after-label {
-          color: #1e40af;
+          color: #3b82f6;
+          font-weight: 700;
         }
 
         .comparison-slider {
@@ -1349,7 +2024,7 @@ export default function Home() {
 
         .routine-ui {
           height: 100%;
-          padding: 2rem 1.5rem;
+          padding: 2rem .5rem;
           display: flex;
           flex-direction: column;
           gap: 1.5rem;
@@ -1359,6 +2034,7 @@ export default function Home() {
           font-size: 1.3rem;
           font-weight: 700;
           text-align: center;
+          color: #fff;
         }
 
         .harsh-text {
@@ -1446,7 +2122,7 @@ export default function Home() {
 
         .audio-ui {
           height: 100%;
-          padding: 2rem 1.5rem;
+          padding: 2rem .5rem;
           display: flex;
           flex-direction: column;
           gap: 1.5rem;
@@ -1585,6 +2261,11 @@ export default function Home() {
           .comparison-wrapper {
             min-height: 650px;
           }
+
+                  /* Carousel Navigation */
+        .comparison-carousel-nav {
+          margin: -2rem auto 0;
+        }
 
           .comparison-phone {
             width: 220px;
