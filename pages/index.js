@@ -1,6 +1,7 @@
 import Head from 'next/head';
-import Link from 'next/link'; 
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { Wifi, Battery, Sun, Newspaper, Sparkles, Music, Bell, Guitar, Piano, CloudRain, Waves, Coffee, Flower2, Flame } from 'lucide-react';
 
 export default function Home() {
   const [currentTime, setCurrentTime] = useState('7:00');
@@ -183,12 +184,12 @@ export default function Home() {
                               <div className="status-bar">
                                 <span className="time-text">7:00 AM</span>
                                 <div className="status-icons">
-                                  <span>📶</span>
-                                  <span>🔋</span>
+                                  <Wifi size={16} strokeWidth={1} />
+                                  <Battery size={16} strokeWidth={1} />
                                 </div>
                               </div>
                               <div className="alarm-content-center">
-                                <div className="alarm-icon-large harsh-icon">🔔</div>
+                                <div className="alarm-icon-large harsh-icon"><Bell size={48} strokeWidth={1} /></div>
                                 <div className="alarm-time-large harsh-time">7:00</div>
                                 <div className="alarm-label-caps harsh-label">ALARM</div>
                                 <div className="volume-bars-container">
@@ -221,43 +222,36 @@ export default function Home() {
                               <div className="status-bar gentle-status">
                                 <span className="time-text">7:00 AM</span>
                                 <div className="status-icons">
-                                  <span>📶</span>
-                                  <span>🔋</span>
+                                  <Wifi size={16} strokeWidth={1} />
+                                  <Battery size={16} strokeWidth={1} />
                                 </div>
                               </div>
                               <div className="alarm-content-center">
                                 <div className="weather-widget">
-                                  <span className="weather-icon">☀️</span>
+                                  <Sun size={24} strokeWidth={1.25} className="weather-icon" style={{color: '#c47900ff'}} />
                                   <span className="weather-temp">72°F</span>
                                 </div>
                                 <div className="alarm-time-large gentle-time">7:00</div>
                                 <div className="alarm-label-soft gentle-label">Good Morning, Alex</div>
                                 <div className="alarm-subtitle">Playing: Morning Meditation Mix</div>
 
-                                <div className="volume-progress-modern">
-                                  <div className="progress-track">
-                                    <div className="progress-fill-gentle"></div>
-                                  </div>
-                                  <div className="volume-text">Gradually increasing to 100%</div>
-                                </div>
-
                                 <div className="quick-actions">
                                   <div className="quick-action-item">
-                                    <span className="action-icon">☕</span>
+                                    <Coffee size={20} strokeWidth={1.25} className="action-icon" style={{color: '#7a541fff'}} />
                                     <span className="action-label">Coffee</span>
                                   </div>
                                   <div className="quick-action-item">
-                                    <span className="action-icon">🧘</span>
+                                    <Flower2 size={20} strokeWidth={1.25} className="action-icon" style={{color: '#7a289bff'}} />
                                     <span className="action-label">Meditate</span>
                                   </div>
                                   <div className="quick-action-item">
-                                    <span className="action-icon">📰</span>
+                                    <Newspaper size={20} strokeWidth={1.25} className="action-icon" style={{color: '#1b5277ff'}} />
                                     <span className="action-label">News</span>
                                   </div>
                                 </div>
                               </div>
                               <div className="alarm-bottom-actions">
-                                <button className="alarm-dismiss-btn gentle-btn">I&apos;m Awake! ✨</button>
+                                <button className="alarm-dismiss-btn gentle-btn">I&apos;m Awake! <Sparkles size={16} strokeWidth={1.25} style={{display: 'inline', color: '#9e7e00ff'}} /></button>
                                 <button className="alarm-snooze-text gentle-snooze">Snooze 10 min</button>
                               </div>
                             </div>
@@ -283,8 +277,8 @@ export default function Home() {
                               <div className="status-bar">
                                 <span className="time-text">7:05 AM</span>
                                 <div className="status-icons">
-                                  <span>📶</span>
-                                  <span>🔋</span>
+                                  <Wifi size={16} strokeWidth={1} />
+                                  <Battery size={16} strokeWidth={1} />
                                 </div>
                               </div>
                               <div className="routine-header">Morning TODO</div>
@@ -313,8 +307,8 @@ export default function Home() {
                               <div className="status-bar gentle-status">
                                 <span className="time-text">7:05 AM</span>
                                 <div className="status-icons">
-                                  <span>📶</span>
-                                  <span>🔋</span>
+                                  <Wifi size={16} strokeWidth={1} />
+                                  <Battery size={16} strokeWidth={1} />
                                 </div>
                               </div>
                               <div className="routine-header-modern">Morning Flow</div>
@@ -324,12 +318,11 @@ export default function Home() {
                                 </div>
                                 <div className="routine-stats">
                                   <span className="progress-text-modern">Step 2 of 5</span>
-                                  <span className="streak-indicator">🔥 12 day streak</span>
+                                  <span className="streak-indicator"> 12 day streak</span>
                                 </div>
                               </div>
                               <div className="routine-current-card">
-                                <div className="routine-badge">Mindfulness</div>
-                                <div className="routine-icon-large">🧘</div>
+                                <div className="routine-icon-large"><Flower2 size={40} strokeWidth={1.5} style={{color: '#7c3697ff'}} /></div>
                                 <div className="routine-name-large">Guided Meditation</div>
                                 <div className="routine-description">Focus on your breathing</div>
                                 <div className="routine-timer-display">
@@ -379,17 +372,17 @@ export default function Home() {
                               <div className="status-bar">
                                 <span className="time-text">6:55 PM</span>
                                 <div className="status-icons">
-                                  <span>📶</span>
-                                  <span>🔋</span>
+                                  <Wifi size={16} strokeWidth={1} />
+                                  <Battery size={16} strokeWidth={1} />
                                 </div>
                               </div>
                               <div className="audio-header-basic">Select Sound</div>
                               <div className="audio-list-basic">
-                                <div className="audio-option-basic">🔔 Default 1</div>
-                                <div className="audio-option-basic">🔔 Default 2</div>
-                                <div className="audio-option-basic">🔔 Default 3</div>
-                                <div className="audio-option-basic">🔔 Default 4</div>
-                                <div className="audio-option-basic">🔔 Default 5</div>
+                                <div className="audio-option-basic"><Bell size={16} strokeWidth={1} style={{display: 'inline', marginRight: '8px'}} /> Default 1</div>
+                                <div className="audio-option-basic"><Bell size={16} strokeWidth={1} style={{display: 'inline', marginRight: '8px'}} /> Default 2</div>
+                                <div className="audio-option-basic"><Bell size={16} strokeWidth={1} style={{display: 'inline', marginRight: '8px'}} /> Default 3</div>
+                                <div className="audio-option-basic"><Bell size={16} strokeWidth={1} style={{display: 'inline', marginRight: '8px'}} /> Default 4</div>
+                                <div className="audio-option-basic"><Bell size={16} strokeWidth={1} style={{display: 'inline', marginRight: '8px'}} /> Default 5</div>
                               </div>
                             </div>
                           </div>
@@ -409,14 +402,14 @@ export default function Home() {
                               <div className="status-bar gentle-status">
                                 <span className="time-text">6:55 PM</span>
                                 <div className="status-icons">
-                                  <span>📶</span>
-                                  <span>🔋</span>
+                                  <Wifi size={16} strokeWidth={1} />
+                                  <Battery size={16} strokeWidth={1} />
                                 </div>
                               </div>
                               <div className="audio-header-modern">Your Audio</div>
                               <div className="audio-grid-modern">
                                 <div className="audio-card-modern featured">
-                                  <div className="card-icon-large">🎵</div>
+                                  <div className="card-icon-large"><Music size={32} strokeWidth={1.5} style={{color: '#E74C3C'}} /></div>
                                   <div className="card-title">Sunrise Sessions</div>
                                   <div className="card-meta">
                                     <span className="card-count">24 tracks</span>
@@ -434,7 +427,7 @@ export default function Home() {
                                   </div>
                                 </div>
                                 <div className="audio-card-modern">
-                                  <div className="card-icon-large">🎧</div>
+                                  <div className="card-icon-large"><Waves size={32} strokeWidth={1.5} style={{color: '#3498DB'}} /></div>
                                   <div className="card-title">DJ Mixes</div>
                                   <div className="card-meta">
                                     <span className="card-count">8 mixes</span>
@@ -446,7 +439,7 @@ export default function Home() {
                                   </div>
                                 </div>
                                 <div className="audio-card-modern">
-                                  <div className="card-icon-large">🎸</div>
+                                  <div className="card-icon-large"><Guitar size={32} strokeWidth={1.5} style={{color: '#E67E22'}} /></div>
                                   <div className="card-title">Live Sets</div>
                                   <div className="card-meta">
                                     <span className="card-count">12 sets</span>
@@ -1514,7 +1507,6 @@ export default function Home() {
         .routine-icon-large {
           font-size: 2.5rem;
           margin-bottom: 0.5rem;
-          filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
         }
 
         .routine-name-large {
@@ -2249,7 +2241,7 @@ export default function Home() {
         .card-title {
           font-size: 1rem;
           font-weight: 600;
-          color: #1e293b;
+          color: #fff;
         }
 
         .card-value {
