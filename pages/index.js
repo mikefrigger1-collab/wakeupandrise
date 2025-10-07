@@ -257,7 +257,7 @@ export default function Home() {
                                 </div>
                               </div>
                               <div className="alarm-bottom-actions">
-                                <button className="alarm-dismiss-btn gentle-btn">I'm Awake! ✨</button>
+                                <button className="alarm-dismiss-btn gentle-btn">I&apos;m Awake! ✨</button>
                                 <button className="alarm-snooze-text gentle-snooze">Snooze 10 min</button>
                               </div>
                             </div>
