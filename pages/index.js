@@ -1,11 +1,13 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { Wifi, Battery, Sun, Newspaper, Sparkles, Music, Bell, Guitar, Piano, CloudRain, Waves, Coffee, Flower2, Flame } from 'lucide-react';
+import { Wifi, Battery, Sun, Newspaper, Sparkles, Music, Bell, Guitar, Piano, CloudRain, Waves, Coffee, Flower2, Flame, Download, Settings, Play, Clock, Volume2, Calendar, Smartphone, Moon, Heart, Zap, Shield, ChevronDown, Check, Star, Users, TrendingUp, Headphones, Image as ImageIcon, Repeat, BellRing, Sunrise } from 'lucide-react';
 
 export default function Home() {
   const [currentTime, setCurrentTime] = useState('7:00');
   const [activeTab, setActiveTab] = useState('alarm');
+  const [openFaq, setOpenFaq] = useState(null);
 
   useEffect(() => {
     const updateClock = () => {
@@ -122,14 +124,18 @@ export default function Home() {
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:title" content="Wake Up & Rise - Smart Alarm Clock App" />
         <meta property="twitter:description" content="Transform your mornings with gradual volume ramping, custom audio, and morning routines." />
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
       </Head>
 
       {/* Navigation */}
       <nav className="nav">
         <div className="container">
           <div className="nav-container">
-            <div className="logo">Wake Up & Rise</div>
+            <div className="logo">
+              <Image src="/ic_launcher_light.png" alt="Wake Up & Rise" width={40} height={40} />
+              <span>Wake Up & Rise</span>
+            </div>
             <a href="#download" className="download-nav-btn">Get App</a>
           </div>
         </div>
@@ -534,6 +540,121 @@ export default function Home() {
         </div>
       </section>
 
+      {/* How It Works Section */}
+      <section className="how-it-works">
+        <div className="container">
+          <h2 className="section-title">How Wake Up & Rise Works</h2>
+          <p className="section-subtitle">Transform your mornings in three simple steps</p>
+
+          <div className="steps-container">
+            <div className="step-card fade-in">
+              <div className="step-number">1</div>
+              <div className="step-icon">
+                <Clock size={32} strokeWidth={1.5} />
+              </div>
+              <h3 className="step-title">Set Your Alarm</h3>
+              <p className="step-description">Choose your wake time and customize how you want to be woken. Select from gentle volume ramping, your favorite music, or peaceful nature sounds.</p>
+            </div>
+
+            <div className="step-connector">
+              <Zap size={20} />
+            </div>
+
+            <div className="step-card fade-in">
+              <div className="step-number">2</div>
+              <div className="step-icon">
+                <Sunrise size={32} strokeWidth={1.5} />
+              </div>
+              <h3 className="step-title">Wake Up Gently</h3>
+              <p className="step-description">When your alarm triggers, experience a gradual awakening. Volume slowly increases while our beautiful full-screen display greets you with weather, time, and your schedule.</p>
+            </div>
+
+            <div className="step-connector">
+              <Zap size={20} />
+            </div>
+
+            <div className="step-card fade-in">
+              <div className="step-number">3</div>
+              <div className="step-icon">
+                <TrendingUp size={32} strokeWidth={1.5} />
+              </div>
+              <h3 className="step-title">Own Your Morning</h3>
+              <p className="step-description">Follow your personalized morning routine with guided activities, timers, and streak tracking. Build habits that stick and start every day with purpose.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us Section */}
+      <section className="why-choose-us">
+        <div className="container">
+          <h2 className="section-title">Why People Love Wake Up & Rise</h2>
+          <p className="section-subtitle">More than just an alarm clock - it&apos;s your morning transformation partner</p>
+
+          <div className="benefits-grid">
+            <div className="benefit-card fade-in">
+              <div className="benefit-icon">
+                <Volume2 size={28} strokeWidth={1.5} />
+              </div>
+              <div className="benefit-content">
+                <h3>Gradual Volume Technology</h3>
+                <p>Our smart volume ramping wakes you during lighter sleep phases, leaving you refreshed instead of groggy. Customize the ramp duration from 30 seconds to 10 minutes.</p>
+              </div>
+            </div>
+
+            <div className="benefit-card fade-in">
+              <div className="benefit-icon">
+                <Headphones size={28} strokeWidth={1.5} />
+              </div>
+              <div className="benefit-content">
+                <h3>Your Music Library</h3>
+                <p>Import any audio file - DJ sets, concert recordings, podcasts, or your personal playlists. Our random start feature ensures you never hear the same wake-up twice.</p>
+              </div>
+            </div>
+
+            <div className="benefit-card fade-in">
+              <div className="benefit-icon">
+                <Calendar size={28} strokeWidth={1.5} />
+              </div>
+              <div className="benefit-content">
+                <h3>Smart Scheduling</h3>
+                <p>Set recurring alarms for weekdays, weekends, or custom schedules. Each alarm can have its own sound, volume settings, and morning routine.</p>
+              </div>
+            </div>
+
+            <div className="benefit-card fade-in">
+              <div className="benefit-icon">
+                <Flower2 size={28} strokeWidth={1.5} />
+              </div>
+              <div className="benefit-content">
+                <h3>100+ Morning Activities</h3>
+                <p>From meditation and stretching to journaling and gratitude practices. Build a routine that energizes you and sets a positive tone for the entire day.</p>
+              </div>
+            </div>
+
+            <div className="benefit-card fade-in">
+              <div className="benefit-icon">
+                <Smartphone size={28} strokeWidth={1.5} />
+              </div>
+              <div className="benefit-content">
+                <h3>Works When Phone is Locked</h3>
+                <p>Unlike other apps, Wake Up & Rise reliably triggers even when your phone is locked or the app is closed. Never miss an important wake-up again.</p>
+              </div>
+            </div>
+
+            <div className="benefit-card fade-in">
+              <div className="benefit-icon">
+                <ImageIcon size={28} strokeWidth={1.5} />
+              </div>
+              <div className="benefit-content">
+                <h3>Beautiful Wake-Up Screen</h3>
+                <p>Customize your alarm screen with personal photos or our curated wallpapers. See weather, inspirational quotes, and quick actions at a glance.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="features" id="features">
         <div className="container">
@@ -550,7 +671,7 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="feature-title">Gradual Volume Ramping</h3>
-              <p className="feature-description">Gentle volume increase from whisper to full—no more jolting awake.</p>
+              <p className="feature-description">Gentle volume increase from whisper to full - no more jolting awake.</p>
             </div>
 
             <div className="feature-card fade-in">
@@ -581,6 +702,96 @@ export default function Home() {
               </div>
               <h3 className="feature-title">Morning Routine Builder</h3>
               <p className="feature-description">Build lasting habits with 100+ guided activities. Track progress and own your mornings.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="faq-section" id="faq">
+        <div className="container">
+          <h2 className="section-title">Frequently Asked Questions</h2>
+          <p className="section-subtitle">Everything you need to know about Wake Up & Rise</p>
+
+          <div className="faq-container">
+            <div className={`faq-item ${openFaq === 0 ? 'open' : ''}`} onClick={() => setOpenFaq(openFaq === 0 ? null : 0)}>
+              <div className="faq-question">
+                <span>What makes Wake Up & Rise different from the default alarm app?</span>
+                <ChevronDown size={20} className="faq-chevron" />
+              </div>
+              <div className="faq-answer">
+                <p>Wake Up & Rise is designed to transform your entire morning experience, not just wake you up. Unlike standard alarms that jolt you awake at full volume, we use gradual volume ramping technology that gently brings you out of sleep. Plus, you can use your own music, build morning routines with 100+ activities, customize your wake-up screen with personal photos, and track your progress with streaks. It&apos;s a complete morning wellness solution.</p>
+              </div>
+            </div>
+
+            <div className={`faq-item ${openFaq === 1 ? 'open' : ''}`} onClick={() => setOpenFaq(openFaq === 1 ? null : 1)}>
+              <div className="faq-question">
+                <span>Can I use my own music or audio files?</span>
+                <ChevronDown size={20} className="faq-chevron" />
+              </div>
+              <div className="faq-answer">
+                <p>Absolutely! Wake Up & Rise lets you import any audio file from your device - MP3s, podcasts, DJ mixes, concert recordings, audiobooks, or your personal playlists. We also offer a unique &quot;random start&quot; feature that begins playback at different points in longer tracks, so your wake-up experience feels fresh every morning. No more hearing the same intro every single day.</p>
+              </div>
+            </div>
+
+            <div className={`faq-item ${openFaq === 2 ? 'open' : ''}`} onClick={() => setOpenFaq(openFaq === 2 ? null : 2)}>
+              <div className="faq-question">
+                <span>Will the alarm work if my phone is locked or the app is closed?</span>
+                <ChevronDown size={20} className="faq-chevron" />
+              </div>
+              <div className="faq-answer">
+                <p>Yes! This is one of our most important features. Wake Up & Rise uses native system-level alarm scheduling that works reliably even when your phone is locked, the app is in the background, or completely closed. We&apos;ve engineered our Android and iOS apps to handle all the edge cases that cause other alarm apps to fail. Your wake-up is too important to leave to chance.</p>
+              </div>
+            </div>
+
+            <div className={`faq-item ${openFaq === 3 ? 'open' : ''}`} onClick={() => setOpenFaq(openFaq === 3 ? null : 3)}>
+              <div className="faq-question">
+                <span>How does the gradual volume ramping work?</span>
+                <ChevronDown size={20} className="faq-chevron" />
+              </div>
+              <div className="faq-answer">
+                <p>When your alarm triggers, instead of blasting at full volume, the audio starts at a whisper-quiet level and gradually increases over your chosen duration - anywhere from 30 seconds to 10 minutes. This gentle approach allows your brain to naturally transition from sleep to wakefulness, often during a lighter sleep phase. The result? You wake up feeling refreshed rather than startled and groggy.</p>
+              </div>
+            </div>
+
+            <div className={`faq-item ${openFaq === 4 ? 'open' : ''}`} onClick={() => setOpenFaq(openFaq === 4 ? null : 4)}>
+              <div className="faq-question">
+                <span>What are morning routines and how do they work?</span>
+                <ChevronDown size={20} className="faq-chevron" />
+              </div>
+              <div className="faq-answer">
+                <p>Morning routines are customizable sequences of activities that guide you through your ideal morning. Choose from 100+ activities including meditation, stretching, journaling, breathing exercises, gratitude practices, and more. Each activity has a timer, and the app tracks your completion streaks to help you build lasting habits. You can create different routines for different days - maybe a quick 10-minute routine for weekdays and a longer wellness-focused one for weekends.</p>
+              </div>
+            </div>
+
+            <div className={`faq-item ${openFaq === 5 ? 'open' : ''}`} onClick={() => setOpenFaq(openFaq === 5 ? null : 5)}>
+              <div className="faq-question">
+                <span>Can I set different alarms for different days?</span>
+                <ChevronDown size={20} className="faq-chevron" />
+              </div>
+              <div className="faq-answer">
+                <p>Yes! You can create unlimited alarms with custom schedules. Set alarms for specific days of the week, weekdays only, weekends only, or any custom combination. Each alarm can have its own unique sound, volume settings, snooze duration, wallpaper, and morning routine. Perfect for different wake-up needs throughout your week.</p>
+              </div>
+            </div>
+
+            <div className={`faq-item ${openFaq === 6 ? 'open' : ''}`} onClick={() => setOpenFaq(openFaq === 6 ? null : 6)}>
+              <div className="faq-question">
+                <span>Is Wake Up & Rise free to use?</span>
+                <ChevronDown size={20} className="faq-chevron" />
+              </div>
+              <div className="faq-answer">
+                <p>Wake Up & Rise offers a generous free tier that includes core alarm functionality, gradual volume ramping, and basic morning routines. Premium features like unlimited custom audio imports, advanced routine activities, custom wallpapers, and detailed sleep analytics are available through an optional subscription. We believe everyone deserves better mornings, so we&apos;ve made the essential features free for everyone.</p>
+              </div>
+            </div>
+
+            <div className={`faq-item ${openFaq === 7 ? 'open' : ''}`} onClick={() => setOpenFaq(openFaq === 7 ? null : 7)}>
+              <div className="faq-question">
+                <span>Does the app drain my battery?</span>
+                <ChevronDown size={20} className="faq-chevron" />
+              </div>
+              <div className="faq-answer">
+                <p>No, Wake Up & Rise is designed to be extremely battery-efficient. The app uses system-level alarm APIs that don&apos;t require keeping the app running in the background. Between alarms, the app uses virtually zero battery. When an alarm triggers, the app briefly activates to play your audio and display your wake-up screen, then goes back to sleep. We&apos;ve optimized every aspect to ensure reliable alarms without impacting your battery life.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -660,8 +871,14 @@ export default function Home() {
         }
 
         .logo {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
           font-size: 1.5rem;
           font-weight: 700;
+        }
+
+        .logo span {
           background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -1072,7 +1289,7 @@ export default function Home() {
         }
 
         .after-screen {
-          background: #60a5fa;
+          background: #f8fafc;
         }
 
         /* Status Bar */
@@ -1104,7 +1321,11 @@ export default function Home() {
         }
 
         .status-bar.gentle-status .time-text {
-          color: rgba(255, 255, 255, 0.95);
+          color: #1e40af;
+        }
+
+        .status-bar.gentle-status .status-icons {
+          color: #1e40af;
         }
 
         /* Alarm UI */
@@ -1123,8 +1344,48 @@ export default function Home() {
         }
 
         .alarm-ui.gentle {
-          background: #60a5fa;
+          background: #f8fafc;
           min-height: 100%;
+        }
+
+        .alarm-ui.gentle .progress-track {
+          background: rgba(30, 64, 175, 0.15);
+        }
+
+        .alarm-ui.gentle .progress-fill-gentle {
+          background: #1e40af;
+        }
+
+        .alarm-ui.gentle .volume-text {
+          color: rgba(30, 64, 175, 0.7);
+        }
+
+        .alarm-ui.gentle .weather-widget {
+          background: rgba(30, 64, 175, 0.1);
+        }
+
+        .alarm-ui.gentle .weather-temp {
+          color: #1e40af;
+        }
+
+        .alarm-ui.gentle .quick-actions {
+          background: rgba(30, 64, 175, 0.05);
+        }
+
+        .alarm-ui.gentle .action-text {
+          color: #1e40af;
+        }
+
+        .alarm-ui.gentle .alarm-subtitle {
+          color: rgba(30, 64, 175, 0.6);
+        }
+
+        .alarm-ui.gentle .action-label {
+          color: #475569;
+        }
+
+        .alarm-ui.gentle .status-icons svg {
+          color: #1e40af;
         }
 
         .alarm-content-center {
@@ -1177,7 +1438,7 @@ export default function Home() {
         }
 
         .gentle-time {
-          color: #ffffff;
+          color: #1e40af;
         }
 
         .alarm-label-caps {
@@ -1201,7 +1462,7 @@ export default function Home() {
         }
 
         .gentle-label {
-          color: rgba(255, 255, 255, 0.9);
+          color: #1e40af;
         }
 
         .volume-bars-container {
@@ -1376,8 +1637,8 @@ export default function Home() {
         }
 
         .alarm-dismiss-btn {
-          background: rgba(255, 255, 255, 0.95);
-          color: #3b82f6;
+          background: #1e40af;
+          color: #ffffff;
         }
 
         .alarm-snooze-text {
@@ -1393,7 +1654,7 @@ export default function Home() {
         }
 
         .gentle-snooze {
-          color: rgba(255, 255, 255, 0.85);
+          color: rgba(30, 64, 175, 0.7);
         }
 
         /* Routine UI Styles */
@@ -1413,8 +1674,74 @@ export default function Home() {
 
         .routine-ui.guided {
           justify-content: flex-start;
-          background: #60a5fa;
+          background: #f8fafc;
           min-height: 100%;
+        }
+
+        .routine-ui.guided .routine-header-modern {
+          color: #1e40af;
+        }
+
+        .routine-ui.guided .progress-bar-modern {
+          background: rgba(30, 64, 175, 0.15);
+        }
+
+        .routine-ui.guided .progress-fill-modern {
+          background: #1e40af;
+        }
+
+        .routine-ui.guided .progress-text-modern {
+          color: rgba(30, 64, 175, 0.7);
+        }
+
+        .routine-ui.guided .streak-indicator {
+          color: #1e40af;
+        }
+
+        .routine-ui.guided .routine-current-card {
+          background: rgba(30, 64, 175, 0.08);
+        }
+
+        .routine-ui.guided .routine-name-large {
+          color: #1e293b;
+        }
+
+        .routine-ui.guided .routine-description {
+          color: #64748b;
+        }
+
+        .routine-ui.guided .timer-text {
+          color: #1e40af;
+        }
+
+        .routine-ui.guided .timer-label {
+          color: rgba(30, 64, 175, 0.6);
+        }
+
+        .routine-ui.guided .timer-ring-bg {
+          stroke: rgba(30, 64, 175, 0.15);
+        }
+
+        .routine-ui.guided .timer-ring-progress {
+          stroke: #1e40af;
+        }
+
+        .routine-ui.guided .audio-title {
+          color: #64748b;
+        }
+
+        .routine-ui.guided .routine-skip-btn {
+          color: #64748b;
+          background: rgba(30, 64, 175, 0.08);
+        }
+
+        .routine-ui.guided .routine-next-btn {
+          background: #1e40af;
+          color: #ffffff;
+        }
+
+        .routine-ui.guided .wave-bar {
+          background: #1e40af;
         }
 
         .routine-header {
@@ -1430,7 +1757,7 @@ export default function Home() {
         }
 
         .gentle-text {
-          color: #ffffff;
+          color: #1e40af;
         }
 
         .routine-list-basic {
@@ -1714,8 +2041,43 @@ export default function Home() {
 
         .audio-ui.custom {
           justify-content: flex-start;
-          background: #60a5fa;
+          background: #f8fafc;
           min-height: 100%;
+        }
+
+        .audio-ui.custom .audio-header-modern {
+          color: #1e40af;
+        }
+
+        .audio-ui.custom .audio-card-modern {
+          background: rgba(30, 64, 175, 0.08);
+        }
+
+        .audio-ui.custom .audio-card-modern:hover {
+          background: rgba(30, 64, 175, 0.12);
+        }
+
+        .audio-ui.custom .card-title {
+          color: #1e293b;
+        }
+
+        .audio-ui.custom .card-count,
+        .audio-ui.custom .card-duration {
+          color: #64748b;
+        }
+
+        .audio-ui.custom .tag {
+          background: rgba(30, 64, 175, 0.1);
+          color: #1e40af;
+        }
+
+        .audio-ui.custom .waveform-bar {
+          background: #1e40af;
+        }
+
+        .audio-ui.custom .import-btn-modern {
+          background: #1e40af;
+          color: #ffffff;
         }
 
         .audio-header-basic {
@@ -2011,7 +2373,7 @@ export default function Home() {
         }
 
         .routine-after-screen {
-          background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+          background: #f8fafc;
         }
 
         .routine-ui {
@@ -2109,7 +2471,7 @@ export default function Home() {
         }
 
         .audio-after-screen {
-          background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+          background: #f8fafc;
         }
 
         .audio-ui {
@@ -2185,7 +2547,7 @@ export default function Home() {
         }
 
         .settings-after-screen {
-          background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+          background: #f8fafc;
         }
 
         .settings-ui {
@@ -2762,6 +3124,246 @@ export default function Home() {
           color: #64748b;
           line-height: 1.7;
           font-size: 1.05rem;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+          padding: 6rem 0;
+          background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+        }
+
+        .steps-container {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+          margin-top: 3rem;
+          flex-wrap: wrap;
+        }
+
+        .step-card {
+          background: #ffffff;
+          border-radius: 20px;
+          padding: 2.5rem 2rem;
+          text-align: center;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+          border: 1px solid rgba(30, 64, 175, 0.08);
+          flex: 1;
+          min-width: 280px;
+          max-width: 320px;
+          position: relative;
+          transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 30px rgba(30, 64, 175, 0.12);
+        }
+
+        .step-number {
+          position: absolute;
+          top: -15px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 36px;
+          height: 36px;
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+          color: #ffffff;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+          font-size: 1rem;
+          box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+        }
+
+        .step-icon {
+          width: 64px;
+          height: 64px;
+          background: linear-gradient(135deg, rgba(30, 64, 175, 0.1) 0%, rgba(30, 58, 138, 0.1) 100%);
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0.5rem auto 1.25rem;
+          color: #1e40af;
+        }
+
+        .step-title {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: #1e293b;
+          margin-bottom: 0.75rem;
+        }
+
+        .step-description {
+          color: #64748b;
+          font-size: 0.95rem;
+          line-height: 1.6;
+        }
+
+        .step-connector {
+          color: #1e40af;
+          opacity: 0.3;
+        }
+
+        @media (max-width: 900px) {
+          .steps-container {
+            flex-direction: column;
+            gap: 2rem;
+          }
+
+          .step-connector {
+            transform: rotate(90deg);
+          }
+
+          .step-card {
+            max-width: 100%;
+          }
+        }
+
+        /* Why Choose Us / Benefits Section */
+        .why-choose-us {
+          padding: 6rem 0;
+          background: #f8fafc;
+        }
+
+        .benefits-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.5rem;
+          margin-top: 3rem;
+        }
+
+        .benefit-card {
+          background: #ffffff;
+          border-radius: 16px;
+          padding: 1.75rem;
+          display: flex;
+          gap: 1.25rem;
+          align-items: flex-start;
+          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+          border: 1px solid rgba(30, 64, 175, 0.06);
+          transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(30, 64, 175, 0.1);
+          border-color: rgba(30, 64, 175, 0.15);
+        }
+
+        .benefit-icon {
+          width: 52px;
+          height: 52px;
+          min-width: 52px;
+          background: linear-gradient(135deg, rgba(30, 64, 175, 0.1) 0%, rgba(30, 58, 138, 0.1) 100%);
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #1e40af;
+        }
+
+        .benefit-content h3 {
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: #1e293b;
+          margin-bottom: 0.5rem;
+        }
+
+        .benefit-content p {
+          color: #64748b;
+          font-size: 0.9rem;
+          line-height: 1.6;
+          margin: 0;
+        }
+
+        @media (max-width: 768px) {
+          .benefits-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .benefit-card {
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+          }
+        }
+
+        /* FAQ Section */
+        .faq-section {
+          padding: 6rem 0;
+          background: #ffffff;
+        }
+
+        .faq-container {
+          max-width: 800px;
+          margin: 3rem auto 0;
+        }
+
+        .faq-item {
+          background: #f8fafc;
+          border-radius: 12px;
+          margin-bottom: 1rem;
+          overflow: hidden;
+          border: 1px solid rgba(30, 64, 175, 0.08);
+          transition: all 0.3s ease;
+          cursor: pointer;
+        }
+
+        .faq-item:hover {
+          border-color: rgba(30, 64, 175, 0.2);
+        }
+
+        .faq-item.open {
+          background: #ffffff;
+          box-shadow: 0 4px 20px rgba(30, 64, 175, 0.1);
+          border-color: rgba(30, 64, 175, 0.2);
+        }
+
+        .faq-question {
+          padding: 1.25rem 1.5rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .faq-question span {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #1e293b;
+          line-height: 1.4;
+        }
+
+        .faq-chevron {
+          color: #1e40af;
+          transition: transform 0.3s ease;
+          min-width: 20px;
+        }
+
+        .faq-item.open .faq-chevron {
+          transform: rotate(180deg);
+        }
+
+        .faq-answer {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-item.open .faq-answer {
+          max-height: 500px;
+          padding: 0 1.5rem 1.5rem;
+        }
+
+        .faq-answer p {
+          color: #64748b;
+          font-size: 0.95rem;
+          line-height: 1.7;
+          margin: 0;
         }
 
         /* Download Section */
